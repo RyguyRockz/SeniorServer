@@ -29,11 +29,13 @@ public class GuestSpawner : MonoBehaviour
         {
             Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
             GameObject guest = Instantiate(guestPrefab, spawnPoint.position, spawnPoint.rotation);
-            GuestAI guestAI = guest.GetComponent<GuestAI>();
+            GuestAI guestAI = guest.gameObject.GetComponentInChildren<GuestAI>();//problem
 
             if (guestAI != null)
             {
                 Transform exit = ExitManager.Instance.exitPoint;
+                Debug.Log(exit != null);
+                Debug.Log(ExitManager.Instance != null);
                 if (exit != null)
                 {
                     guestAI.SetExitPoint(exit); // Set the exit point using the method

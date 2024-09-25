@@ -59,7 +59,8 @@ public class GuestAI : MonoBehaviour
 
     public void SetExitPoint(Transform exit)
     {
-        exitPoint = exit;
+        exitPoint = exit; 
+        Debug.Log("Exit point set to " + exitPoint.name);
     }
 
     private Transform ChooseRandomChair()

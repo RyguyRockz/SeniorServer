@@ -176,5 +176,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exitPoint: {fileID: 0}
-  sittingDuration: 20
+  sittingDuration: 8
   walkSpeed: 4

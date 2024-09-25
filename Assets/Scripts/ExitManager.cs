@@ -18,7 +18,7 @@ public class ExitManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Start() 
     {
         if (exitPoint == null)
         {
