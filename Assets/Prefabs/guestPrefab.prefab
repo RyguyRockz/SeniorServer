@@ -133,9 +133,9 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -176,5 +176,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exitPoint: {fileID: 0}
-  sittingDuration: 8
+  chatBubblePrefab: {fileID: 9058042543159469016, guid: e6712a65098e2b2438e0d52b22b45f52, type: 3}
+  sittingDuration: 20
   walkSpeed: 4
