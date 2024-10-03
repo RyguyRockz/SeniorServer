@@ -2,11 +2,11 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System.Linq;
+using UnityEngine.UI;
 
 public class GuestAI : InteractableObject
 {
-    public Transform exitPoint; // Assign this via SetExitPoint method
-    public GameObject chatBubblePrefab;
+    public Transform exitPoint;
     public float sittingDuration = 5f;
     public float walkSpeed = 3f;
 
@@ -29,12 +29,6 @@ public class GuestAI : InteractableObject
 
     private IEnumerator GuestRoutine()
     {
-        if (ChairManager.Instance == null || ExitManager.Instance == null)
-        {
-            Debug.LogError("ChairManager.Instance or ExitManager.Instance is null.");
-            yield break;
-        }
-
         while (true)
         {
             targetChair = ChooseRandomChair();
@@ -69,21 +63,49 @@ public class GuestAI : InteractableObject
     {
         TakeOrder();
     }
+
     public void TakeOrder()
     {
         if (!IsSeated() || hasOrdered) return;
 
         hasOrdered = true;
-        order = Random.Range(1, 4);
-
+        order = Random.Range(1, 7); // Randomly generates number
         Debug.Log("Guest ordered item: " + order);
 
-        GameObject chatBubble = Instantiate(chatBubblePrefab, transform.position + Vector3.up * 2f, Quaternion.identity);
-        chatBubble.GetComponentInChildren<TextMesh>().text = order.ToString();
+        GameObject orderObject = null;
 
-        Destroy(chatBubble, 3f);
+        // Dynamically load the corresponding prefab from the Resources folder
+        switch (order)
+        {
+            case 1:
+                orderObject = Resources.Load<GameObject>("FoodBubble1");
+                break;
+            case 2:
+                orderObject = Resources.Load<GameObject>("FoodBubble2");
+                break;
+            case 3:
+                orderObject = Resources.Load<GameObject>("FoodBubble3");
+                break;
+            case 4:
+                orderObject = Resources.Load<GameObject>("DrinkBubble1");
+                break;
+            case 5:
+                orderObject = Resources.Load<GameObject>("DrinkBubble2");
+                break;
+            case 6:
+                orderObject = Resources.Load<GameObject>("DrinkBubble3");
+                break;
+        }
+
+        if (orderObject != null)
+        {
+            GameObject instance = Instantiate(orderObject, transform.position + Vector3.up * 1.5f, Quaternion.identity);
+            instance.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f); // Adjust scale if needed
+            instance.transform.SetParent(transform); // Optional: Parent it to the guest so it moves with them
+
+            Destroy(instance, 3f); // Destroy the 3D object after 3 seconds
+        }
     }
-
     private bool IsSeated()
     {
         return targetChair != null && targetChair.GetComponent<Chair>().IsOccupied;

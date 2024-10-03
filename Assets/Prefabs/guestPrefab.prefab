@@ -176,6 +176,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exitPoint: {fileID: 0}
-  chatBubblePrefab: {fileID: 9058042543159469016, guid: e6712a65098e2b2438e0d52b22b45f52, type: 3}
-  sittingDuration: 20
+  chatBubblePrefab: {fileID: 0}
+  sittingDuration: 30
   walkSpeed: 4

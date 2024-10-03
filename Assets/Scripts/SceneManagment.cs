@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class SceneManagment : MonoBehaviour
 {
-    // Call this method when the Play Game button is pressed
+    public GameObject terminalCanvas;
     public void PlayGame()
     {
         // Load the game scene by name or index
         SceneManager.LoadScene("Scene1"); // Replace with your actual game scene name
     }
 
-    // Call this method when the Quit Game button is pressed
+    
     public void QuitGame()
     {
 #if UNITY_EDITOR
@@ -23,11 +23,19 @@ public class SceneManagment : MonoBehaviour
 #endif
     }
 
-    // Call this method when the Back to Main Menu button is pressed
+    
     public void BackToMainMenu()
     {
         // Load the main menu scene by name or index
         SceneManager.LoadScene("Main Menu"); // Replace with your actual main menu scene name
+    }
+
+    public void Exit()
+    {
+        if (terminalCanvas != null)
+        {
+            terminalCanvas.SetActive(false); // Deactivate the canvas
+        }
     }
 }
 
