@@ -1308,7 +1308,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &389546564
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1450,8 +1450,8 @@ MonoBehaviour:
   guestPrefab: {fileID: 1326199288887454455, guid: 63b2d81c5eda875428200de5ccf4bbaa, type: 3}
   spawnPoints:
   - {fileID: 422187251}
-  numberOfGuests: 5
-  spawnDelay: 7
+  numberOfGuests: 6
+  spawnDelay: 8
 --- !u!1 &434891223
 GameObject:
   m_ObjectHideFlags: 0
@@ -2125,7 +2125,7 @@ RectTransform:
   m_GameObject: {fileID: 661984459}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.285, y: 0.582, z: 1}
+  m_LocalScale: {x: 0.285, y: 0.6402, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 389546564}
@@ -2568,7 +2568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotateTowardMouse: 1
-  MovementSpeed: 3
+  MovementSpeed: 4
   RotationSpeed: 2
   Camera: {fileID: 963194227}
 --- !u!136 &769415673
@@ -3135,7 +3135,7 @@ RectTransform:
   m_GameObject: {fileID: 890449962}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.075, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 389546564}
@@ -5132,7 +5132,7 @@ Transform:
   m_GameObject: {fileID: 1440387930}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 452.59616, y: 295.42322, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5153,7 +5153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7407d261fc20ae7489ad60c3734199b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeLimit: 45
+  timeLimit: 61
   timerText: {fileID: 1181247016}
 --- !u!114 &1440387933
 MonoBehaviour:
@@ -6878,7 +6878,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 19.426392, y: -20.270447, z: 6.515564, w: -146.96045}
+  m_margin: {x: 28.546906, y: -14.570179, z: 15.635857, w: -129.8596}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
