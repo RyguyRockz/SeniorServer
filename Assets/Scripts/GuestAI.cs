@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System.Linq;
-using UnityEngine.UI;
 
 public class GuestAI : InteractableObject
 {
@@ -12,8 +11,8 @@ public class GuestAI : InteractableObject
 
     private NavMeshAgent agent;
     private Transform targetChair;
-    private int order; // To store the order (1, 2, or 3)
-    private bool hasOrdered = false; // To track if the guest has ordered yet
+    private int order; // Store the guest's random order
+    private bool hasOrdered = false; // Track if the guest has ordered yet
 
     private void Start()
     {
@@ -34,7 +33,7 @@ public class GuestAI : InteractableObject
             targetChair = ChooseRandomChair();
             if (targetChair != null) break;
             Debug.Log("No available chairs. Guest is waiting...");
-            yield return new WaitForSeconds(1f); // Wait 1 second before checking again
+            yield return new WaitForSeconds(1f);
         }
 
         agent.SetDestination(targetChair.position);
@@ -100,20 +99,21 @@ public class GuestAI : InteractableObject
         if (orderObject != null)
         {
             GameObject instance = Instantiate(orderObject, transform.position + Vector3.up * 1.5f, Quaternion.identity);
-            instance.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f); // Adjust scale if needed
-            instance.transform.SetParent(transform); // Optional: Parent it to the guest so it moves with them
+            instance.transform.localScale = new Vector3(1f, 1f, 1f); // Adjust scale if needed
+            instance.transform.SetParent(transform);
 
             Destroy(instance, 3f); // Destroy the 3D object after 3 seconds
         }
     }
+
     private bool IsSeated()
     {
         return targetChair != null && targetChair.GetComponent<Chair>().IsOccupied;
     }
 
-    public bool CheckOrder(int deliveredItem)
+    public int GetRandomOrder()
     {
-        return deliveredItem == order;
+        return order; // Allow other classes to access the random order if needed
     }
 
     private Transform ChooseRandomChair()
