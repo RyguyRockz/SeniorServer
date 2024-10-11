@@ -28,7 +28,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (inventoryStack.Count >= maxInventorySize) return;
 
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1f);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, .1f);
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.CompareTag("Pickup"))
