@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class FoodItem : MonoBehaviour
 {
-    public int orderNumber;
+    public int foodId; // ID to match guest's order (1-6)
 }

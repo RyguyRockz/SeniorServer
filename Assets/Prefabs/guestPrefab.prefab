@@ -148,7 +148,6 @@ GameObject:
   - component: {fileID: 5315672553220724776}
   - component: {fileID: 1568045351033822356}
   - component: {fileID: 4446937604095475510}
-  - component: {fileID: 2677951122107621398}
   - component: {fileID: 7438390735708466536}
   - component: {fileID: 8886473455322488662}
   - component: {fileID: 5813118107360814622}
@@ -225,29 +224,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &2677951122107621398
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8528922285227364171}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &7438390735708466536
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -283,8 +259,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exitPoint: {fileID: 0}
-  sitTimeLimit: 20
-  foodWaitTimeLimit: 20
+  sitTimeLimit: 15
+  foodWaitTimeLimit: 25
   eatingDuration: 5
   walkSpeed: 4
 --- !u!65 &5813118107360814622

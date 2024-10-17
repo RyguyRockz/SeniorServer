@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System.Linq;
+using TMPro;
 
 public class GuestAI : InteractableObject
 {
@@ -17,10 +18,15 @@ public class GuestAI : InteractableObject
     private bool hasOrdered = false; // Tracks if the guest has ordered
     private bool hasReceivedFood = false; // Tracks if the guest has received food
     private bool isEating = false; // Tracks if guest is currently eating
+    private float foodWaitElapsedTime = 0f; // To keep track of elapsed time for food waiting
+
+    
+    private UIManager uiManager;
 
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        uiManager = FindObjectOfType<UIManager>(); // Find the UIManager in the scene
         StartCoroutine(GuestRoutine());
     }
 
@@ -76,9 +82,9 @@ public class GuestAI : InteractableObject
         Transform guestFacingPoint = targetChair.GetComponent<Chair>().GuestFacingPoint;
         if (guestFacingPoint != null)
         {
-            Debug.Log("Guest facing table. Target point: " + guestFacingPoint.position);
+           // Debug.Log("Guest facing table. Target point: " + guestFacingPoint.position);
             RotateTowardsInstantly(guestFacingPoint.position);
-            Debug.Log("Guest rotation after applying: " + transform.rotation.eulerAngles);
+           // Debug.Log("Guest rotation after applying: " + transform.rotation.eulerAngles);
         }
         else
         {
@@ -93,6 +99,8 @@ public class GuestAI : InteractableObject
         {
             yield return StartCoroutine(WaitForFood());
         }
+
+        
 
         // Leave the restaurant after eating or failing to receive food
         targetChair.GetComponent<Chair>().IsOccupied = false;
@@ -125,22 +133,23 @@ public class GuestAI : InteractableObject
         if (!hasOrdered)
         {
             Debug.Log("Order not taken fast enough. Guest is leaving.");
-            yield break;
+            uiManager.ShowText(uiManager.guestLeaveText, "I waited too long! I'm leaving!", 3f);
+            yield break; // Stop execution
         }
     }
 
     private IEnumerator WaitForFood()
     {
-        float elapsedTime = 0f;
-        while (!hasReceivedFood && elapsedTime < foodWaitTimeLimit)
+        foodWaitElapsedTime = 0f; // Reset elapsed time
+        while (!hasReceivedFood && foodWaitElapsedTime < foodWaitTimeLimit)
         {
-            elapsedTime += Time.deltaTime;
+            foodWaitElapsedTime += Time.deltaTime; // Update elapsed time
             yield return null;
         }
 
         if (!hasReceivedFood)
         {
-            Debug.Log("Did not get food in time. Guest is leaving.");
+            uiManager.ShowText(uiManager.guestIncorrectFoodText, "I Havent Gotten My Food! I'm Leaving!", 3f);
             yield break;
         }
     }
@@ -177,6 +186,7 @@ public class GuestAI : InteractableObject
         if (deliveredOrder == order)
         {
             Debug.Log("Correct food delivered.");
+            hasReceivedFood = true; // Mark as received food
         }
         else
         {
@@ -184,6 +194,43 @@ public class GuestAI : InteractableObject
         }
 
         StartCoroutine(EatFood(deliveredOrder == order));
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Check if the object entering the trigger is a food item
+        if (other.CompareTag("Pickup"))
+        {
+            // Check if the food item corresponds to the guest's order
+            int deliveredOrder = GetOrderFromFood(other.gameObject);
+
+            if (deliveredOrder != -1)
+            {
+                Debug.Log("Food detected. Checking if it's correct...");
+                ReceiveFood(deliveredOrder); // Call ReceiveFood to check if the delivered food matches the order
+            }
+        }
+    }
+
+    // Helper function to map food GameObjects to order numbers
+    private int GetOrderFromFood(GameObject food)
+    {
+        // Compare the food GameObject with the stored prefabs to determine which food it is
+        if (food.name.Contains("FoodPrefab1"))
+            return 1;
+        if (food.name.Contains("FoodPrefab2"))
+            return 2;
+        if (food.name.Contains("FoodPrefab3"))
+            return 3;
+        if (food.name.Contains("DrinkPrefab1"))
+            return 4;
+        if (food.name.Contains("DrinkPrefab2"))
+            return 5;
+        if (food.name.Contains("DrinkPrefab3"))
+            return 6;
+
+        // If no matching food is found, return -1
+        return -1;
     }
 
     private IEnumerator EatFood(bool correctFood)
@@ -195,14 +242,17 @@ public class GuestAI : InteractableObject
         if (correctFood)
         {
             Debug.Log("Guest ate the correct food.");
+            uiManager.ShowText(uiManager.guestEatText, "Delicious! I'm satisfied!", 3f);
         }
         else
         {
             Debug.Log("Guest ate the wrong food.");
+            uiManager.ShowText(uiManager.guestIncorrectFoodText, "This isn't what I ordered!", 3f);
         }
 
         hasReceivedFood = true;
         isEating = false;
+
     }
 
     private GameObject LoadOrderPrefab(int orderNumber)
@@ -251,8 +301,8 @@ public class GuestAI : InteractableObject
         transform.rotation = lookRotation;
 
         // Optional: Log the desired rotation
-        Debug.Log("Rotated towards table at: " + targetPosition);
+        //Debug.Log("Rotated towards table at: " + targetPosition);
     }
 
-
+   
 }
