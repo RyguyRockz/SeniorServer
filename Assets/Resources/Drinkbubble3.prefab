@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2048888293550221181}
   - component: {fileID: 8919532904334689663}
   - component: {fileID: 5883101506140488544}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 1375207776252786399}
   - component: {fileID: 6235333155616589874}
   - component: {fileID: 4203015459592750545}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 2608563014510753422}
   - component: {fileID: 4205503988325341991}
   - component: {fileID: 4810869402317548587}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 3632334153589999452}
   - component: {fileID: 4917178606714169308}
   - component: {fileID: 100064669664365982}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -436,7 +436,7 @@ GameObject:
   - component: {fileID: 1946289908826892276}
   - component: {fileID: 86702866910157421}
   - component: {fileID: 4674612903275885059}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -538,7 +538,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 656949629864568739}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Drinkbubble3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -573,7 +573,7 @@ GameObject:
   - component: {fileID: 9035788913391098300}
   - component: {fileID: 5132836052262298064}
   - component: {fileID: 21670734610898919}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -680,7 +680,7 @@ GameObject:
   - component: {fileID: 3799029104825764317}
   - component: {fileID: 5517059366857665083}
   - component: {fileID: 317185197416280945}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -787,7 +787,7 @@ GameObject:
   - component: {fileID: 7091176023417478926}
   - component: {fileID: 7608416384010568711}
   - component: {fileID: 4982014486270866626}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -892,7 +892,7 @@ GameObject:
   - component: {fileID: 121738481995716495}
   - component: {fileID: 5828864393672721262}
   - component: {fileID: 682347013543540145}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1000,7 +1000,7 @@ GameObject:
   - component: {fileID: 2240206740769120830}
   - component: {fileID: 223688004831093616}
   - component: {fileID: 992806560590172314}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder
   m_TagString: Pickup
   m_Icon: {fileID: 0}

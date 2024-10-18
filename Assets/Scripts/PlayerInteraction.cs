@@ -10,15 +10,15 @@ public class PlayerInteraction : MonoBehaviour
     public GameObject interactableIndicatorPrefab; // Prefab to show above interactable object
     private GameObject activeIndicator; // To store the current active indicator
     private Transform lastInteractable; // To track the last interactable object we looked at
-
+    public LayerMask interactableLayers;
     private void Update()
     {
         Ray ray = new Ray(InteractorSource.position, InteractorSource.forward);
 
-        // Detect interactable object with raycast
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, InteractRange))
+        // Raycast only hits objects on the specified layers
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, InteractRange, interactableLayers))
         {
-            // Check for Pickup or InteractableObject
+            // Check if the object hit by the ray is interactable (like a Pickup)
             if (hitInfo.collider.CompareTag("Pickup") || hitInfo.collider.GetComponent<IInteractable>() != null)
             {
                 ShowIndicator(hitInfo.collider.transform); // Show indicator above the interactable object
@@ -50,7 +50,6 @@ public class PlayerInteraction : MonoBehaviour
             DropItem();
         }
     }
-
     private void ShowIndicator(Transform interactable)
     {
         // Check if we're looking at the same object as before

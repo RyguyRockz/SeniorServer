@@ -264,6 +264,8 @@ MonoBehaviour:
   foodWaitTimeLimit: 25
   eatingDuration: 5
   walkSpeed: 4
+  platePrefab: {fileID: 4871798394993491860, guid: e1ea864f194646640be9f5d513603af2, type: 3}
+  currentFoodObject: {fileID: 0}
 --- !u!65 &5813118107360814622
 BoxCollider:
   m_ObjectHideFlags: 0

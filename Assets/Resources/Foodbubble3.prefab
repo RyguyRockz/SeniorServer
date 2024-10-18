@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1762122040783821526}
   - component: {fileID: 627810565569515845}
   - component: {fileID: 5052697934719403969}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TurkeyLeg_Model
   m_TagString: Pickup
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4662170226133583551}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Foodbubble3
   m_TagString: Untagged
   m_Icon: {fileID: 0}

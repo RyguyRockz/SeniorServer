@@ -20,8 +20,8 @@ public class GuestAI : InteractableObject
     private bool isEating = false; // Tracks if guest is currently eating
     private float foodWaitElapsedTime = 0f; // To keep track of elapsed time for food waiting
 
-    public GameObject foodObject; // Reference to the food GameObject
-    public GameObject plateObject; // Reference to the plate GameObject
+    public GameObject platePrefab;
+    public GameObject currentFoodObject;
 
     private UIManager uiManager;
 
@@ -53,6 +53,8 @@ public class GuestAI : InteractableObject
 
         StartCoroutine(GuestRoutine());
     }
+
+
 
     private void Update()
     {
@@ -131,11 +133,7 @@ public class GuestAI : InteractableObject
     private IEnumerator LeaveRestaurant()
     {
         yield return new WaitForSeconds(eatingDuration);
-        if (foodObject != null)
-        {
-            Destroy(foodObject); // Destroy the food object
-            Debug.Log("Food has been destroyed.");
-        }
+       
 
         targetChair.GetComponent<Chair>().IsOccupied = false; // Mark the chair as unoccupied
         if (exitPoint != null)
@@ -153,7 +151,6 @@ public class GuestAI : InteractableObject
 
         Debug.Log("Guest is leaving!");
         Destroy(gameObject);
-        yield return null;
     }
 
     private IEnumerator WaitForOrder()
@@ -235,7 +232,6 @@ public class GuestAI : InteractableObject
 
     private void OnTriggerEnter(Collider other)
     {
-        
         // Check if the object entering the trigger is a food item
         if (other.CompareTag("Pickup"))
         {
@@ -246,6 +242,8 @@ public class GuestAI : InteractableObject
             if (deliveredOrder != -1)
             {
                 Debug.Log("Food detected. Checking if it's correct...");
+                currentFoodObject = other.gameObject; // Assign the food object to currentFoodObject
+
                 ReceiveFood(deliveredOrder); // Call ReceiveFood to check if the delivered food matches the order
             }
         }
@@ -267,19 +265,34 @@ public class GuestAI : InteractableObject
     {
         isEating = true;
         Debug.Log("Guest is eating.");
-        
+        yield return new WaitForSeconds(eatingDuration); // Wait for the guest to finish eating
 
         if (correctFood)
         {
             Debug.Log("Guest ate the correct food.");
             uiManager.ShowText(uiManager.guestEatText, "Delicious! I'm satisfied!", 3f);
+
+            // Destroy the food object after eating
+            if (currentFoodObject != null)
+            {
+                Destroy(currentFoodObject);
+                Debug.Log("Food object destroyed.");
+            }
+
+            // Calculate the position in front of the guest (adjust the forward offset as necessary)
+            Vector3 plateSpawnPosition = transform.position + transform.forward * .6f + new Vector3(0 , .1f, 0); // Adjust 0.5f to control the distance from the guest
+
+
+            // Spawn the plate prefab at the guest's location
+            Instantiate(platePrefab, plateSpawnPosition, Quaternion.identity);
+            Debug.Log("Plate spawned in front of guest.");
         }
         else
         {
             Debug.Log("Guest ate the wrong food.");
             uiManager.ShowText(uiManager.guestIncorrectFoodText, "This isn't what I ordered!", 3f);
         }
-        yield return new WaitForSeconds(eatingDuration);
+
         hasReceivedFood = true;
         isEating = false;
     }
