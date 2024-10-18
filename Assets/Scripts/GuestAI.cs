@@ -117,7 +117,7 @@ public class GuestAI : InteractableObject
             Debug.LogError("Exit point is not set.");
         }
 
-        Debug.Log("Guest is stuffed and leaving!");
+        Debug.Log("Guest is leaving!");
         Destroy(gameObject);
     }
 
@@ -198,11 +198,13 @@ public class GuestAI : InteractableObject
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Something is in the boxCollider");
         // Check if the object entering the trigger is a food item
         if (other.CompareTag("Pickup"))
         {
             // Check if the food item corresponds to the guest's order
             int deliveredOrder = GetOrderFromFood(other.gameObject);
+            Debug.Log("Food detected: " + deliveredOrder);
 
             if (deliveredOrder != -1)
             {
@@ -215,22 +217,13 @@ public class GuestAI : InteractableObject
     // Helper function to map food GameObjects to order numbers
     private int GetOrderFromFood(GameObject food)
     {
-        // Compare the food GameObject with the stored prefabs to determine which food it is
-        if (food.name.Contains("FoodPrefab1"))
-            return 1;
-        if (food.name.Contains("FoodPrefab2"))
-            return 2;
-        if (food.name.Contains("FoodPrefab3"))
-            return 3;
-        if (food.name.Contains("DrinkPrefab1"))
-            return 4;
-        if (food.name.Contains("DrinkPrefab2"))
-            return 5;
-        if (food.name.Contains("DrinkPrefab3"))
-            return 6;
+        FoodItem foodItem = food.GetComponent<FoodItem>();
+        if (foodItem != null)
+        {
+            return foodItem.foodId;
+        }
 
-        // If no matching food is found, return -1
-        return -1;
+        return -1; // Return -1 if no FoodItem component is found
     }
 
     private IEnumerator EatFood(bool correctFood)

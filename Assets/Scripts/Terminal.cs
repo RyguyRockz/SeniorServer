@@ -140,7 +140,7 @@ public class Terminal : InteractableObject
 
         if (prefabToSpawn != null && target != null)
         {
-            Instantiate(prefabToSpawn, target.position + Vector3.up * .3f, Quaternion.identity);
+            Instantiate(prefabToSpawn, target.position + Vector3.up * .4f, Quaternion.identity);
         }
     }
 
