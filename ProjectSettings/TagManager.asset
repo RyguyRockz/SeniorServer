@@ -5,14 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - Chair
+  - Pickup
+  - table
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - playerLayer
   - Water
   - UI
-  - 
+  - guestLayer
   - 
   - 
   - 

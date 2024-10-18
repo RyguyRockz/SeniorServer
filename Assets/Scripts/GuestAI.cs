@@ -20,13 +20,34 @@ public class GuestAI : InteractableObject
     private bool isEating = false; // Tracks if guest is currently eating
     private float foodWaitElapsedTime = 0f; // To keep track of elapsed time for food waiting
 
-    
     private UIManager uiManager;
 
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         uiManager = FindObjectOfType<UIManager>(); // Find the UIManager in the scene
+
+        // Get the layer indices
+        int playerLayer = LayerMask.NameToLayer("playerLayer");
+        int guestLayer = gameObject.layer; // This should be set to the appropriate layer in the inspector
+
+        // Check if layers are valid
+        if (playerLayer < 0 || playerLayer > 31)
+        {
+            Debug.LogError("Invalid player layer index: " + playerLayer);
+        }
+
+        if (guestLayer < 0 || guestLayer > 31)
+        {
+            Debug.LogError("Invalid guest layer index: " + guestLayer);
+        }
+
+        // Ignore collisions between PlayerLayer and GuestAI layer if valid
+        if (playerLayer >= 0 && playerLayer <= 31 && guestLayer >= 0 && guestLayer <= 31)
+        {
+            Physics.IgnoreLayerCollision(playerLayer, guestLayer);
+        }
+
         StartCoroutine(GuestRoutine());
     }
 
@@ -82,9 +103,7 @@ public class GuestAI : InteractableObject
         Transform guestFacingPoint = targetChair.GetComponent<Chair>().GuestFacingPoint;
         if (guestFacingPoint != null)
         {
-           // Debug.Log("Guest facing table. Target point: " + guestFacingPoint.position);
             RotateTowardsInstantly(guestFacingPoint.position);
-           // Debug.Log("Guest rotation after applying: " + transform.rotation.eulerAngles);
         }
         else
         {
@@ -99,8 +118,6 @@ public class GuestAI : InteractableObject
         {
             yield return StartCoroutine(WaitForFood());
         }
-
-        
 
         // Leave the restaurant after eating or failing to receive food
         targetChair.GetComponent<Chair>().IsOccupied = false;
@@ -140,6 +157,7 @@ public class GuestAI : InteractableObject
 
     private IEnumerator WaitForFood()
     {
+        Debug.Log("Waiting for food");
         foodWaitElapsedTime = 0f; // Reset elapsed time
         while (!hasReceivedFood && foodWaitElapsedTime < foodWaitTimeLimit)
         {
@@ -149,7 +167,7 @@ public class GuestAI : InteractableObject
 
         if (!hasReceivedFood)
         {
-            uiManager.ShowText(uiManager.guestIncorrectFoodText, "I Havent Gotten My Food! I'm Leaving!", 3f);
+            uiManager.ShowText(uiManager.guestIncorrectFoodText, "I Haven't Gotten My Food! I'm Leaving!", 3f);
             yield break;
         }
     }
@@ -198,7 +216,7 @@ public class GuestAI : InteractableObject
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Something is in the boxCollider");
+        Debug.Log("COLLIDING");
         // Check if the object entering the trigger is a food item
         if (other.CompareTag("Pickup"))
         {
@@ -245,7 +263,6 @@ public class GuestAI : InteractableObject
 
         hasReceivedFood = true;
         isEating = false;
-
     }
 
     private GameObject LoadOrderPrefab(int orderNumber)
@@ -290,12 +307,7 @@ public class GuestAI : InteractableObject
         Vector3 direction = (targetPosition - transform.position).normalized;
 
         // Directly set the rotation to look at the target position
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = lookRotation;
-
-        // Optional: Log the desired rotation
-        //Debug.Log("Rotated towards table at: " + targetPosition);
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        transform.rotation = targetRotation;
     }
-
-   
 }

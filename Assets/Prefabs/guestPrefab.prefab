@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3400140621648639919}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: guestPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 597696037150770903}
   - component: {fileID: 6662497052847288466}
   - component: {fileID: 8907852380437630033}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -151,7 +151,8 @@ GameObject:
   - component: {fileID: 7438390735708466536}
   - component: {fileID: 8886473455322488662}
   - component: {fileID: 5813118107360814622}
-  m_Layer: 0
+  - component: {fileID: 2100135178223463586}
+  m_Layer: 6
   m_Name: GuestAgent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,5 +283,32 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.449174, y: 1.3258376, z: 1.4422884}
-  m_Center: {x: -0.014154911, y: 0.3370812, z: 0.8328624}
+  m_Size: {x: 2.0432944, y: 0.9738232, z: 0.9571495}
+  m_Center: {x: 0.057329416, y: 0.4628206, z: 1.0754318}
+--- !u!54 &2100135178223463586
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8528922285227364171}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
