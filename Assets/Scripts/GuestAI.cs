@@ -20,6 +20,9 @@ public class GuestAI : InteractableObject
     private bool isEating = false; // Tracks if guest is currently eating
     private float foodWaitElapsedTime = 0f; // To keep track of elapsed time for food waiting
 
+    public GameObject foodObject; // Reference to the food GameObject
+    public GameObject plateObject; // Reference to the plate GameObject
+
     private UIManager uiManager;
 
     private void Start()
@@ -117,10 +120,24 @@ public class GuestAI : InteractableObject
         if (hasOrdered)
         {
             yield return StartCoroutine(WaitForFood());
+
         }
 
+        //yield return new WaitForSeconds(eatingDuration);
         // Leave the restaurant after eating or failing to receive food
-        targetChair.GetComponent<Chair>().IsOccupied = false;
+        yield return StartCoroutine(LeaveRestaurant());
+    }
+
+    private IEnumerator LeaveRestaurant()
+    {
+        yield return new WaitForSeconds(eatingDuration);
+        if (foodObject != null)
+        {
+            Destroy(foodObject); // Destroy the food object
+            Debug.Log("Food has been destroyed.");
+        }
+
+        targetChair.GetComponent<Chair>().IsOccupied = false; // Mark the chair as unoccupied
         if (exitPoint != null)
         {
             agent.isStopped = false; // Re-enable the agent to move again
@@ -136,6 +153,7 @@ public class GuestAI : InteractableObject
 
         Debug.Log("Guest is leaving!");
         Destroy(gameObject);
+        yield return null;
     }
 
     private IEnumerator WaitForOrder()
@@ -205,18 +223,19 @@ public class GuestAI : InteractableObject
         {
             Debug.Log("Correct food delivered.");
             hasReceivedFood = true; // Mark as received food
+
+            // Start the eating process after receiving food
+            StartCoroutine(EatFood(deliveredOrder == order));
         }
         else
         {
             Debug.Log("Wrong food delivered.");
         }
-
-        StartCoroutine(EatFood(deliveredOrder == order));
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("COLLIDING");
+        
         // Check if the object entering the trigger is a food item
         if (other.CompareTag("Pickup"))
         {
@@ -248,7 +267,7 @@ public class GuestAI : InteractableObject
     {
         isEating = true;
         Debug.Log("Guest is eating.");
-        yield return new WaitForSeconds(eatingDuration);
+        
 
         if (correctFood)
         {
@@ -260,7 +279,7 @@ public class GuestAI : InteractableObject
             Debug.Log("Guest ate the wrong food.");
             uiManager.ShowText(uiManager.guestIncorrectFoodText, "This isn't what I ordered!", 3f);
         }
-
+        yield return new WaitForSeconds(eatingDuration);
         hasReceivedFood = true;
         isEating = false;
     }
