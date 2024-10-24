@@ -126,6 +126,7 @@ public class GuestAI : InteractableObject
         }
 
         //yield return new WaitForSeconds(eatingDuration);
+        //while loop if eating return null until done eating.
         // Leave the restaurant after eating or failing to receive food
         yield return StartCoroutine(LeaveRestaurant());
     }

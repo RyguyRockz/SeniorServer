@@ -8,6 +8,8 @@ public class SceneManagment : MonoBehaviour
     public GameObject terminalCanvas;
     public GameObject pauseMenuUI; // The Pause Menu Canvas
     public GameObject controlsMenuUI; // The Controls Menu Canvas
+    public GameObject LevelSelectUI; // Level select Canvas
+    public GameObject MainMenuUI;
     private bool isPaused = false;
 
     void Update()
@@ -49,6 +51,16 @@ public class SceneManagment : MonoBehaviour
         pauseMenuUI.SetActive(false);  // Hide the pause menu
         controlsMenuUI.SetActive(true);  // Show controls menu
     }
+
+    // Opens the Level Menu
+    public void OpenLevelSelect()
+    {
+        MainMenuUI.SetActive(false);  // Hide the pause menu
+        LevelSelectUI.SetActive(true);  // Show controls menu
+    }
+
+   
+
 
     // Goes back to the Pause Menu from Controls Menu
     public void BackToPauseMenu()
