@@ -29,22 +29,35 @@ public class GuestSpawner : MonoBehaviour
         {
             Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
             GameObject guest = Instantiate(guestPrefab, spawnPoint.position, spawnPoint.rotation);
-            GuestAI guestAI = guest.gameObject.GetComponentInChildren<GuestAI>();//problem
 
-            if (guestAI != null)
+            if (guest != null) // Ensure the guest was successfully instantiated
             {
-                Transform exit = ExitManager.Instance.exitPoint;
-                Debug.Log(exit != null);
-                Debug.Log(ExitManager.Instance != null);
-                if (exit != null)
+                GuestAI guestAI = guest.GetComponentInChildren<GuestAI>();
+
+                if (guestAI != null)
                 {
-                    guestAI.SetExitPoint(exit); // Set the exit point using the method
-                    Debug.Log("Exit point set for guest: " + exit.name);
+                    Transform exit = ExitManager.Instance.exitPoint;
+                    if (exit != null)
+                    {
+                        guestAI.SetExitPoint(exit); // Set the exit point using the method
+                        Debug.Log("Exit point set for guest: " + exit.name);
+                    }
+                    else
+                    {
+                        Debug.LogError("Exit point is not available when spawning guest.");
+                    }
+
+                    // Confirm guest has spawned, so increment the count
+                    ScoreManager.Instance.OnGuestSpawned();
                 }
                 else
                 {
-                    Debug.LogError("Exit point is not available when spawning guest.");
+                    Debug.LogError("GuestAI component missing on guest.");
                 }
+            }
+            else
+            {
+                Debug.LogError("Failed to instantiate guest prefab.");
             }
         }
         else

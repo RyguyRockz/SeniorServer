@@ -23,6 +23,9 @@ public class GuestAI : InteractableObject
     public GameObject platePrefab;
     public GameObject currentFoodObject;
 
+    private ScoreManager scoreManager;
+    private int ratingScore = 0; // Current rating score for the guest
+
     private UIManager uiManager;
 
     private void Start()
@@ -49,6 +52,12 @@ public class GuestAI : InteractableObject
         if (playerLayer >= 0 && playerLayer <= 31 && guestLayer >= 0 && guestLayer <= 31)
         {
             Physics.IgnoreLayerCollision(playerLayer, guestLayer);
+        }
+
+        scoreManager = FindObjectOfType<ScoreManager>();
+        if (scoreManager == null)
+        {
+            Debug.LogError("ScoreManager not found in the scene!");
         }
 
         StartCoroutine(GuestRoutine());
@@ -93,7 +102,23 @@ public class GuestAI : InteractableObject
             Debug.Log("No available chairs. Guest is waiting...");
             yield return new WaitForSeconds(1f);
         }
+        float chairWaitTime = 0f;
+        while (targetChair == null && chairWaitTime < sitTimeLimit)
+        {
+            chairWaitTime += Time.deltaTime;
+            yield return null;
+        }
 
+        if (chairWaitTime >= sitTimeLimit)
+        {
+            Debug.Log("Guest waited too long for a chair.");
+            yield break; // Guest leaves if chair not found in time
+        }
+        else
+        {
+            ratingScore++;
+            scoreManager.AddScore(1); // Increase score for timely seating
+        }
         agent.SetDestination(targetChair.position);
         agent.speed = walkSpeed;
         yield return new WaitUntil(() => !agent.pathPending && agent.remainingDistance < 0.5f);
@@ -169,6 +194,12 @@ public class GuestAI : InteractableObject
             uiManager.ShowText(uiManager.guestLeaveText, "I waited too long! I'm leaving!", 3f);
             yield break; // Stop execution
         }
+        else
+        {
+            // Order taken on time
+            ratingScore++;
+            scoreManager.AddScore(1); // Increase score for timely order
+        }
     }
 
     private IEnumerator WaitForFood()
@@ -185,6 +216,12 @@ public class GuestAI : InteractableObject
         {
             uiManager.ShowText(uiManager.guestIncorrectFoodText, "I Haven't Gotten My Food! I'm Leaving!", 3f);
             yield break;
+        }
+        else
+        {
+            // Food delivered on time
+            ratingScore++;
+            scoreManager.AddScore(1); // Increase score for timely food delivery
         }
     }
 
@@ -221,6 +258,9 @@ public class GuestAI : InteractableObject
         {
             Debug.Log("Correct food delivered.");
             hasReceivedFood = true; // Mark as received food
+
+            ratingScore++; // Increase score for correct food
+            scoreManager.AddScore(1); // Add score to ScoreManager
 
             // Start the eating process after receiving food
             StartCoroutine(EatFood(deliveredOrder == order));

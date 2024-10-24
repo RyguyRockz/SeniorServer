@@ -7,6 +7,7 @@ TagManager:
   - Chair
   - Pickup
   - table
+  - Guest
   layers:
   - Default
   - TransparentFX
@@ -43,4 +44,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Stars
+    uniqueID: 3020218517
     locked: 0
