@@ -31,14 +31,21 @@ public class ScoreManager : MonoBehaviour
         UpdateAverageScore();
         Debug.Log($"Score added: {score}. Total scores: {guestScores.Count}");
     }
+
+    public void SubtractScore(int score)
+    {
+        guestScores.Remove(score);
+        UpdateAverageScore();
+        Debug.Log($"Score subtracted: {score}. Total scores: {guestScores.Count}");
+    }
     public void OnGuestSpawned()
     {
         totalNumberOfGuests++; // Increment total guests when a new guest is instantiated
     }
     private void UpdateAverageScore()
     {
-        //if (totalNumberOfGuests == 0)
-            //return;
+        if (totalNumberOfGuests == 0)
+            return;
 
         float averageScore = guestScores.Sum() / (float)totalNumberOfGuests;
         averageScoreText.text = "Score: " + averageScore.ToString("F1"); // Format to 1 decimal place

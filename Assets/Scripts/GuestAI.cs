@@ -112,12 +112,14 @@ public class GuestAI : InteractableObject
         if (chairWaitTime >= sitTimeLimit)
         {
             Debug.Log("Guest waited too long for a chair.");
+            scoreManager.SubtractScore(1);
             yield break; // Guest leaves if chair not found in time
         }
         else
         {
             ratingScore++;
             scoreManager.AddScore(1); // Increase score for timely seating
+            Debug.Log("added score for order seating");
         }
         agent.SetDestination(targetChair.position);
         agent.speed = walkSpeed;
@@ -150,7 +152,7 @@ public class GuestAI : InteractableObject
 
         }
 
-        //yield return new WaitForSeconds(eatingDuration);
+        yield return new WaitForSeconds(eatingDuration);
         //while loop if eating return null until done eating.
         // Leave the restaurant after eating or failing to receive food
         yield return StartCoroutine(LeaveRestaurant());
@@ -158,7 +160,7 @@ public class GuestAI : InteractableObject
 
     private IEnumerator LeaveRestaurant()
     {
-        yield return new WaitForSeconds(eatingDuration);
+        
        
 
         targetChair.GetComponent<Chair>().IsOccupied = false; // Mark the chair as unoccupied
@@ -190,6 +192,7 @@ public class GuestAI : InteractableObject
 
         if (!hasOrdered)
         {
+            scoreManager.SubtractScore(1);
             Debug.Log("Order not taken fast enough. Guest is leaving.");
             uiManager.ShowText(uiManager.guestLeaveText, "I waited too long! I'm leaving!", 3f);
             yield break; // Stop execution
@@ -199,6 +202,7 @@ public class GuestAI : InteractableObject
             // Order taken on time
             ratingScore++;
             scoreManager.AddScore(1); // Increase score for timely order
+            Debug.Log("added score for order on time");
         }
     }
 
@@ -214,6 +218,7 @@ public class GuestAI : InteractableObject
 
         if (!hasReceivedFood)
         {
+            scoreManager.SubtractScore(1);
             uiManager.ShowText(uiManager.guestIncorrectFoodText, "I Haven't Gotten My Food! I'm Leaving!", 3f);
             yield break;
         }
@@ -222,6 +227,7 @@ public class GuestAI : InteractableObject
             // Food delivered on time
             ratingScore++;
             scoreManager.AddScore(1); // Increase score for timely food delivery
+            Debug.Log("added score for delievered food");
         }
     }
 
@@ -261,13 +267,17 @@ public class GuestAI : InteractableObject
 
             ratingScore++; // Increase score for correct food
             scoreManager.AddScore(1); // Add score to ScoreManager
+            Debug.Log("added score for correct order");
 
             // Start the eating process after receiving food
+            new WaitForSeconds(eatingDuration);
             StartCoroutine(EatFood(deliveredOrder == order));
         }
         else
         {
+            
             Debug.Log("Wrong food delivered.");
+            StartCoroutine(EatFood(deliveredOrder == order));
         }
     }
 
@@ -306,10 +316,13 @@ public class GuestAI : InteractableObject
     {
         isEating = true;
         Debug.Log("Guest is eating.");
+        //Debug.Log("Waiting for " + eatingDuration + " seconds.");
+
         yield return new WaitForSeconds(eatingDuration); // Wait for the guest to finish eating
 
         if (correctFood)
         {
+           
             Debug.Log("Guest ate the correct food.");
             uiManager.ShowText(uiManager.guestEatText, "Delicious! I'm satisfied!", 3f);
 
@@ -323,15 +336,31 @@ public class GuestAI : InteractableObject
             // Calculate the position in front of the guest (adjust the forward offset as necessary)
             Vector3 plateSpawnPosition = transform.position + transform.forward * .6f + new Vector3(0 , .1f, 0); // Adjust 0.5f to control the distance from the guest
 
-
             // Spawn the plate prefab at the guest's location
             Instantiate(platePrefab, plateSpawnPosition, Quaternion.identity);
             Debug.Log("Plate spawned in front of guest.");
         }
         else
         {
-            Debug.Log("Guest ate the wrong food.");
+            scoreManager.SubtractScore(1);
             uiManager.ShowText(uiManager.guestIncorrectFoodText, "This isn't what I ordered!", 3f);
+            Debug.Log("Guest ate the wrong food.");
+            // Destroy the food object after eating
+            if (currentFoodObject != null)
+            {
+                Destroy(currentFoodObject);
+                Debug.Log("Food object destroyed.");
+            }
+
+            // Calculate the position in front of the guest (adjust the forward offset as necessary)
+            Vector3 plateSpawnPosition = transform.position + transform.forward * .6f + new Vector3(0, .1f, 0); // Adjust 0.5f to control the distance from the guest
+
+            // Spawn the plate prefab at the guest's location
+            Instantiate(platePrefab, plateSpawnPosition, Quaternion.identity);
+            Debug.Log("Plate spawned in front of guest.");
+
+
+            
         }
 
         hasReceivedFood = true;

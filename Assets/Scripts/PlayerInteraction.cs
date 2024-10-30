@@ -11,6 +11,11 @@ public class PlayerInteraction : MonoBehaviour
     private GameObject activeIndicator; // To store the current active indicator
     private Transform lastInteractable; // To track the last interactable object we looked at
     public LayerMask interactableLayers;
+
+    private bool isCleaning = false; // Flag to track if the player is cleaning
+    private float cleanTimer = 0f; // Timer to track how long the E key is held down
+    public float cleanDuration = 2f; // Time required to clean the spill
+
     private void Update()
     {
         Ray ray = new Ray(InteractorSource.position, InteractorSource.forward);
@@ -18,8 +23,8 @@ public class PlayerInteraction : MonoBehaviour
         // Raycast only hits objects on the specified layers
         if (Physics.Raycast(ray, out RaycastHit hitInfo, InteractRange, interactableLayers))
         {
-            // Check if the object hit by the ray is interactable (like a Pickup)
-            if (hitInfo.collider.CompareTag("Pickup") || hitInfo.collider.GetComponent<IInteractable>() != null)
+            // Check if the object hit by the ray is interactable (like a Pickup or Spill)
+            if (hitInfo.collider.CompareTag("Pickup") || hitInfo.collider.CompareTag("Spill") || hitInfo.collider.GetComponent<IInteractable>() != null)
             {
                 ShowIndicator(hitInfo.collider.transform); // Show indicator above the interactable object
             }
@@ -28,6 +33,17 @@ public class PlayerInteraction : MonoBehaviour
                 HideIndicator(); // Hide the indicator if no valid object is detected
             }
 
+            // Check if we are looking at a spill to start cleaning
+            if (hitInfo.collider.CompareTag("Spill"))
+            {
+                HandleCleaning(hitInfo.collider.gameObject);
+            }
+            else
+            {
+                ResetCleaning(); // Reset cleaning timer if no spill is in view
+            }
+
+            // Handle normal interactions (picking up items, interacting with IInteractable objects)
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (hitInfo.collider.CompareTag("Pickup"))
@@ -43,6 +59,7 @@ public class PlayerInteraction : MonoBehaviour
         else
         {
             HideIndicator(); // Hide the indicator when not looking at anything
+            ResetCleaning(); // Reset cleaning if no interactable object is in view
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
@@ -50,6 +67,40 @@ public class PlayerInteraction : MonoBehaviour
             DropItem();
         }
     }
+
+    private void HandleCleaning(GameObject spill)
+    {
+        // If the player holds down the E key, start the cleaning process
+        if (Input.GetKey(KeyCode.E))
+        {
+            cleanTimer += Time.deltaTime; // Increase the timer while holding E
+
+            if (cleanTimer >= cleanDuration && !isCleaning)
+            {
+                isCleaning = true;
+                CleanSpill(spill); // Clean the spill
+            }
+        }
+        else
+        {
+            ResetCleaning(); // Reset the timer if E is not held
+        }
+    }
+
+    private void ResetCleaning()
+    {
+        cleanTimer = 0f;
+        isCleaning = false;
+    }
+
+    private void CleanSpill(GameObject spill)
+    {
+        // Destroy the spill object
+        Destroy(spill);
+        Debug.Log("Spill cleaned!");
+        ResetCleaning(); // Reset cleaning state after cleaning
+    }
+
     private void ShowIndicator(Transform interactable)
     {
         // Check if we're looking at the same object as before
