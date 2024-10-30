@@ -26,6 +26,8 @@ public class GuestAI : InteractableObject
     private ScoreManager scoreManager;
     private int ratingScore = 0; // Current rating score for the guest
 
+    public float spillSpawnChance = 0.15f; // 15% chance to spawn spill
+
     private UIManager uiManager;
 
     private void Start()
@@ -330,7 +332,6 @@ public class GuestAI : InteractableObject
             if (currentFoodObject != null)
             {
                 Destroy(currentFoodObject);
-                Debug.Log("Food object destroyed.");
             }
 
             // Calculate the position in front of the guest (adjust the forward offset as necessary)
@@ -339,6 +340,9 @@ public class GuestAI : InteractableObject
             // Spawn the plate prefab at the guest's location
             Instantiate(platePrefab, plateSpawnPosition, Quaternion.identity);
             Debug.Log("Plate spawned in front of guest.");
+
+            // Attempt to spawn a spill through SpillManager
+            SpillManager.Instance.TrySpawnSpill(spillSpawnChance);
         }
         else
         {
@@ -359,14 +363,15 @@ public class GuestAI : InteractableObject
             Instantiate(platePrefab, plateSpawnPosition, Quaternion.identity);
             Debug.Log("Plate spawned in front of guest.");
 
+            // Attempt to spawn a spill through SpillManager
+            SpillManager.Instance.TrySpawnSpill(spillSpawnChance);
 
-            
         }
 
         hasReceivedFood = true;
         isEating = false;
     }
-
+  
     private GameObject LoadOrderPrefab(int orderNumber)
     {
         switch (orderNumber)
