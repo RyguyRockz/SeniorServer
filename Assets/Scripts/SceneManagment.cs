@@ -5,11 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class SceneManagment : MonoBehaviour
 {
+    public static SceneManagment Instance { get; private set; }
+    public GameObject InGameCanvas;
     public GameObject terminalCanvas;
     public GameObject pauseMenuUI; // The Pause Menu Canvas
     public GameObject controlsMenuUI; // The Controls Menu Canvas
     public GameObject LevelSelectUI; // Level select Canvas
     public GameObject MainMenuUI;
+    public GameObject LevelOverCanvas; // Canvas for the end-of-level UI
     private bool isPaused = false;
 
     void Update()
@@ -25,6 +28,17 @@ public class SceneManagment : MonoBehaviour
             {
                 Pause();
             }
+        }
+    }
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -59,14 +73,24 @@ public class SceneManagment : MonoBehaviour
         LevelSelectUI.SetActive(true);  // Show controls menu
     }
 
-   
-
-
     // Goes back to the Pause Menu from Controls Menu
     public void BackToPauseMenu()
     {
         controlsMenuUI.SetActive(false);  // Hide controls menu
         pauseMenuUI.SetActive(true);  // Show pause menu
+    }
+
+    public void ShowLevelOverCanvas()
+    {
+        InGameCanvas.SetActive(false);
+        LevelOverCanvas.SetActive(true); // Show the canvas
+        Time.timeScale = 0f; // Pause the game
+    }
+
+    public void HideLevelOverCanvas()
+    {
+        LevelOverCanvas.SetActive(false); // Hide the canvas
+        Time.timeScale = 1f; // Unpause the game if resuming
     }
 
     // PlayGame function - Ensure the game starts unpaused

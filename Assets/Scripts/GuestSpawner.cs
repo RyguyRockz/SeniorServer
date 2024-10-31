@@ -8,6 +8,9 @@ public class GuestSpawner : MonoBehaviour
     public int numberOfGuests;
     public float spawnDelay;
 
+    private int guestsSpawned = 0; // Track guests that have spawned
+    private int guestsLeft = 0;     // Track guests that have left
+
     private void Start()
     {
         // Start the coroutine to spawn guests
@@ -19,6 +22,7 @@ public class GuestSpawner : MonoBehaviour
         for (int i = 0; i < numberOfGuests; i++)
         {
             SpawnGuest();
+            guestsSpawned++;
             yield return new WaitForSeconds(spawnDelay);
         }
     }
@@ -41,6 +45,7 @@ public class GuestSpawner : MonoBehaviour
                     {
                         guestAI.SetExitPoint(exit); // Set the exit point using the method
                         Debug.Log("Exit point set for guest: " + exit.name);
+                        guestAI.OnGuestLeft += HandleGuestLeft;
                     }
                     else
                     {
@@ -64,5 +69,24 @@ public class GuestSpawner : MonoBehaviour
         {
             Debug.LogError("guestPrefab or ExitManager.Instance is not set.");
         }
+    }
+
+    private void HandleGuestLeft()
+    {
+        guestsLeft++; // Increment the count of guests who have left
+        if (guestsLeft == guestsSpawned) // Check if all guests have left
+        {
+            StartCoroutine(EndLevel()); // Start the coroutine to wait before ending the level
+        }
+    }
+
+    private IEnumerator EndLevel()
+    {
+        // Wait for 5 seconds
+        yield return new WaitForSeconds(5);
+
+        // Trigger the LevelOver UI
+        SceneManagment.Instance.ShowLevelOverCanvas();
+        FindObjectOfType<LevelEndUI>().ShowPenaltyLog();
     }
 }

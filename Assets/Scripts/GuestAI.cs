@@ -23,6 +23,9 @@ public class GuestAI : InteractableObject
     public GameObject platePrefab;
     public GameObject currentFoodObject;
 
+    public delegate void GuestLeftEventHandler();
+    public event GuestLeftEventHandler OnGuestLeft;
+
     private ScoreManager scoreManager;
     private int ratingScore = 0; // Current rating score for the guest
 
@@ -115,6 +118,7 @@ public class GuestAI : InteractableObject
         {
             Debug.Log("Guest waited too long for a chair.");
             scoreManager.SubtractScore(1);
+            ScoreManager.Instance.IncrementGuestsWaitedTooLong();
             yield break; // Guest leaves if chair not found in time
         }
         else
@@ -162,9 +166,6 @@ public class GuestAI : InteractableObject
 
     private IEnumerator LeaveRestaurant()
     {
-        
-       
-
         targetChair.GetComponent<Chair>().IsOccupied = false; // Mark the chair as unoccupied
         if (exitPoint != null)
         {
@@ -180,6 +181,7 @@ public class GuestAI : InteractableObject
         }
 
         Debug.Log("Guest is leaving!");
+        OnGuestLeft?.Invoke();
         Destroy(gameObject);
     }
 
@@ -195,6 +197,7 @@ public class GuestAI : InteractableObject
         if (!hasOrdered)
         {
             scoreManager.SubtractScore(1);
+            ScoreManager.Instance.IncrementGuestsDidNotOrder();
             Debug.Log("Order not taken fast enough. Guest is leaving.");
             uiManager.ShowText(uiManager.guestLeaveText, "I waited too long! I'm leaving!", 3f);
             yield break; // Stop execution
@@ -221,6 +224,7 @@ public class GuestAI : InteractableObject
         if (!hasReceivedFood)
         {
             scoreManager.SubtractScore(1);
+            ScoreManager.Instance.IncrementGuestsFoodTookTooLong();
             uiManager.ShowText(uiManager.guestIncorrectFoodText, "I Haven't Gotten My Food! I'm Leaving!", 3f);
             yield break;
         }
@@ -347,6 +351,7 @@ public class GuestAI : InteractableObject
         else
         {
             scoreManager.SubtractScore(1);
+            ScoreManager.Instance.IncrementGuestsReceivedWrongOrder();
             uiManager.ShowText(uiManager.guestIncorrectFoodText, "This isn't what I ordered!", 3f);
             Debug.Log("Guest ate the wrong food.");
             // Destroy the food object after eating

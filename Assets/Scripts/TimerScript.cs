@@ -1,39 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class TimerScript : MonoBehaviour
 {
-    public float timeLimit = 60f; // Time limit for the level
-    private float timer;
+    private float timer = 0f; // Start timer at 0
 
     public TMP_Text timerText; // Reference to the UI Text component
 
     void Start()
     {
-        timer = timeLimit;
         UpdateTimerText();
     }
 
     void Update()
     {
-        timer -= Time.deltaTime;
-
-        if (timer <= 0f)
-        {
-            LoadGameOverScene();
-        }
-        else
-        {
-            UpdateTimerText();
-        }
-    }
-
-    void LoadGameOverScene()
-    {
-        SceneManager.LoadScene("GameOverScene"); // Replace with your actual GameOver scene name
+        timer += Time.deltaTime;
+        UpdateTimerText();
     }
 
     void UpdateTimerText()

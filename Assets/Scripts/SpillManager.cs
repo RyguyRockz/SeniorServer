@@ -45,6 +45,7 @@ public class SpillManager : MonoBehaviour
         if (!spill.IsCleaned)
         {
             ScoreManager.Instance.SubtractScore(spillPenalty);
+            ScoreManager.Instance.IncrementSpillsTookTooLong();
             Debug.Log("Score decreased due to uncleaned spill.");
         }
 
