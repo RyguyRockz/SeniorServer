@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
+
+
 
 public class SceneManagment : MonoBehaviour
 {
@@ -14,6 +17,8 @@ public class SceneManagment : MonoBehaviour
     public GameObject MainMenuUI;
     public GameObject LevelOverCanvas; // Canvas for the end-of-level UI
     private bool isPaused = false;
+
+    public TextMeshProUGUI levelAccessMessage;
 
     void Update()
     {
@@ -94,10 +99,11 @@ public class SceneManagment : MonoBehaviour
     }
 
     // PlayGame function - Ensure the game starts unpaused
-    public void PlayGame()
+    public void Level1()
     {
         Time.timeScale = 1f;  // Ensure the game is unpaused when starting
-        SceneManager.LoadScene("Scene1"); // Replace with your actual game scene name
+        SceneManager.LoadScene("Level1"); // Replace with your actual game scene name
+        ScoreManager.Instance.StartNewLevel();
     }
 
     // QuitGame function - unchanged
@@ -115,8 +121,20 @@ public class SceneManagment : MonoBehaviour
     {
         Time.timeScale = 1f;  // Ensure the game is unpaused when returning to the menu
         SceneManager.LoadScene("Main Menu"); // Replace with your actual main menu scene name
+
     }
 
+    public void CompleteLevel1()
+    {
+        ScoreManager.Instance.FinishLevel1(); // Capture Level 1 score
+        SceneManager.LoadScene("Main Menu");
+    }
+
+    public void CompleteLevel2()
+    {
+        ScoreManager.Instance.FinishLevel2(); // Capture Level 1 score
+        SceneManager.LoadScene("Main Menu");
+    }
     public void Exit()
     {
         if (terminalCanvas != null)
@@ -124,4 +142,55 @@ public class SceneManagment : MonoBehaviour
             terminalCanvas.SetActive(false); // Deactivate the canvas
         }
     }
+
+    private IEnumerator ClearLevelAccessMessageAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay); // Wait for the specified delay
+        levelAccessMessage.text = ""; // Clear the message
+    }
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    public void LoadLevel2(string levelName)
+    {
+        // Check if the player has enough score from Level 1 to access Level 2
+        if (levelName == "Level2" && ScoreManager.Instance.LevelScore1 < 3)
+        {
+            levelAccessMessage.text = "You need at least 3 stars on Level 1 to access Level 2!"; // Set feedback message
+            StartCoroutine(ClearLevelAccessMessageAfterDelay(3f)); // Clear message after 3 seconds
+            return; // Prevent loading the level
+        }
+
+        // Load the level
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(levelName);
+        ScoreManager.Instance.StartNewLevel();
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Check if the loaded scene is the level you want to initialize
+        if (scene.name == "Level1") // Change this to the correct level name
+        {
+            ScoreManager.Instance.StartNewLevel();
+        }
+        if (scene.name == "Level2") // Change this to the correct level name
+        {
+            ScoreManager.Instance.StartNewLevel();
+        }
+        if (scene.name == "Level3") // Change this to the correct level name
+        {
+            ScoreManager.Instance.StartNewLevel();
+        }
+    }
+
+
+
 }

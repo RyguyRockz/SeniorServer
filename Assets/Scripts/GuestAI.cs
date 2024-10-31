@@ -339,7 +339,7 @@ public class GuestAI : InteractableObject
             }
 
             // Calculate the position in front of the guest (adjust the forward offset as necessary)
-            Vector3 plateSpawnPosition = transform.position + transform.forward * .6f + new Vector3(0 , .1f, 0); // Adjust 0.5f to control the distance from the guest
+            Vector3 plateSpawnPosition = transform.position + transform.forward * .6f + new Vector3(0 , .13f, 0); // Adjust 0.5f to control the distance from the guest
 
             // Spawn the plate prefab at the guest's location
             Instantiate(platePrefab, plateSpawnPosition, Quaternion.identity);
@@ -362,7 +362,7 @@ public class GuestAI : InteractableObject
             }
 
             // Calculate the position in front of the guest (adjust the forward offset as necessary)
-            Vector3 plateSpawnPosition = transform.position + transform.forward * .6f + new Vector3(0, .1f, 0); // Adjust 0.5f to control the distance from the guest
+            Vector3 plateSpawnPosition = transform.position + transform.forward * .6f + new Vector3(0, .13f, 0); // Adjust 0.5f to control the distance from the guest
 
             // Spawn the plate prefab at the guest's location
             Instantiate(platePrefab, plateSpawnPosition, Quaternion.identity);

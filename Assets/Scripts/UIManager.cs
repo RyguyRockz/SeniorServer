@@ -8,7 +8,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI guestLeaveText;
     public TextMeshProUGUI guestEatText;
     public TextMeshProUGUI guestIncorrectFoodText;
-
+    public TextMeshProUGUI averageScoreText; // Assign this in Inspector
+    public TextMeshProUGUI levelOverScoreText; // Assign this in Inspector
 
     public static UIManager Instance { get; private set; }
 
@@ -29,7 +30,8 @@ public class UIManager : MonoBehaviour
         guestLeaveText.gameObject.SetActive(false);
         guestEatText.gameObject.SetActive(false);
         guestIncorrectFoodText.gameObject.SetActive(false);
-       
+
+        ScoreManager.Instance.InitializeUI(averageScoreText, levelOverScoreText);
     }
 
     public void ShowText(TextMeshProUGUI textElement, string message, float duration)
