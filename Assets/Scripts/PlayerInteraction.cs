@@ -151,9 +151,44 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (currentItems[i] != null)
             {
+                // Cast a ray to check if the player is looking at a valid drop surface
+                Ray ray = new Ray(InteractorSource.position, InteractorSource.forward);
+                if (Physics.Raycast(ray, out RaycastHit hitInfo, InteractRange, interactableLayers))
+                {
+                    // Check if the object has the "DropSurface" tag
+                    if (hitInfo.collider.CompareTag("DropSurface"))
+                    {
+                        Debug.Log("Collided With Drop Surface");
+                        // Find the "DropPoint" child within the target drop surface
+                        Transform dropPoint = hitInfo.collider.transform.Find("DropPoint");
+
+                        if (dropPoint != null)
+                        {
+                            // Snap the item to the drop point's position and rotation
+                            currentItems[i].transform.position = dropPoint.position;
+                            currentItems[i].transform.rotation = dropPoint.rotation;
+                        }
+                        else
+                        {
+                            // If there's no DropPoint, just place it at the hit position
+                            currentItems[i].transform.position = hitInfo.point;
+                        }
+                    }
+                    else
+                    {
+                        // If not looking at a valid surface, place it in front of the player
+                        currentItems[i].transform.position = InteractorSource.position + InteractorSource.forward;
+                    }
+                }
+                else
+                {
+                    // If the ray doesn't hit anything, place it in front of the player
+                    currentItems[i].transform.position = InteractorSource.position + InteractorSource.forward;
+                }
+
+                // Finalize item drop
                 currentItems[i].SetActive(true);
                 currentItems[i].transform.SetParent(null);
-                currentItems[i].transform.position = InteractorSource.position + InteractorSource.forward;
                 currentItems[i] = null;
                 return;
             }

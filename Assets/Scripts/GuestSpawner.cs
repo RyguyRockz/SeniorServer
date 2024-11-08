@@ -10,6 +10,7 @@ public class GuestSpawner : MonoBehaviour
 
     private int guestsSpawned = 0; // Track guests that have spawned
     private int guestsLeft = 0;     // Track guests that have left
+    public int EndLevelTimer;
 
     private void Start()
     {
@@ -83,7 +84,7 @@ public class GuestSpawner : MonoBehaviour
     private IEnumerator EndLevel()
     {
         // Wait for 5 seconds
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(EndLevelTimer);
 
         // Trigger the LevelOver UI
         SceneManagment.Instance.ShowLevelOverCanvas();

@@ -106,6 +106,13 @@ public class SceneManagment : MonoBehaviour
         ScoreManager.Instance.StartNewLevel();
     }
 
+    public void LoadTutorial()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("TutorialLevel");
+        ScoreManager.Instance.StartNewLevel();
+    }
+
     // QuitGame function - unchanged
     public void QuitGame()
     {

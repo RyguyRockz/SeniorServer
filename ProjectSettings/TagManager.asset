@@ -6,9 +6,10 @@ TagManager:
   tags:
   - Chair
   - Pickup
-  - table
   - Guest
   - Spill
+  - DropSurface
+  - table
   layers:
   - Default
   - TransparentFX
