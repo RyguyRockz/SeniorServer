@@ -131,6 +131,14 @@ public class PlayerInteraction : MonoBehaviour
 
     private void PickUpItem(GameObject item)
     {
+        TableInventory tableInventory = item.GetComponentInParent<TableInventory>();
+        if (tableInventory != null && tableInventory.HasItem)
+        {
+            Debug.Log("Picking Up Item off Table");
+            // Pick up the item from the table
+            item = tableInventory.PickUpItem();
+        }
+
         for (int i = 0; i < currentItems.Length; i++)
         {
             if (currentItems[i] == null)
@@ -147,51 +155,42 @@ public class PlayerInteraction : MonoBehaviour
 
     private void DropItem()
     {
+        // Loop through the player's inventory from the last item to the first
         for (int i = currentItems.Length - 1; i >= 0; i--)
         {
             if (currentItems[i] != null)
             {
-                // Cast a ray to check if the player is looking at a valid drop surface
+                // Cast a ray to check if the player is looking at a table with a TableInventory
                 Ray ray = new Ray(InteractorSource.position, InteractorSource.forward);
                 if (Physics.Raycast(ray, out RaycastHit hitInfo, InteractRange, interactableLayers))
                 {
-                    // Check if the object has the "DropSurface" tag
-                    if (hitInfo.collider.CompareTag("DropSurface"))
+                    if (hitInfo.collider.TryGetComponent(out TableInventory tableInventory))
                     {
-                        Debug.Log("Collided With Drop Surface");
-                        // Find the "DropPoint" child within the target drop surface
-                        Transform dropPoint = hitInfo.collider.transform.Find("DropPoint");
-
-                        if (dropPoint != null)
+                        if (!tableInventory.HasItem) // Place item if table is empty
                         {
-                            // Snap the item to the drop point's position and rotation
-                            currentItems[i].transform.position = dropPoint.position;
-                            currentItems[i].transform.rotation = dropPoint.rotation;
+                            tableInventory.PlaceItem(currentItems[i]);
+                            currentItems[i] = null; // Remove from player's inventory
+                            return;
                         }
                         else
                         {
-                            // If there's no DropPoint, just place it at the hit position
-                            currentItems[i].transform.position = hitInfo.point;
+                            Debug.Log("Table already has an item!");
                         }
                     }
                     else
                     {
-                        // If not looking at a valid surface, place it in front of the player
-                        currentItems[i].transform.position = InteractorSource.position + InteractorSource.forward;
+                        Debug.Log("You can only place items on a table!");
                     }
                 }
                 else
                 {
-                    // If the ray doesn't hit anything, place it in front of the player
-                    currentItems[i].transform.position = InteractorSource.position + InteractorSource.forward;
+                    Debug.Log("No table detected. Drop action canceled.");
                 }
-
-                // Finalize item drop
-                currentItems[i].SetActive(true);
-                currentItems[i].transform.SetParent(null);
-                currentItems[i] = null;
+                // Exit the loop after attempting to drop the item
                 return;
             }
         }
     }
+
+
 }

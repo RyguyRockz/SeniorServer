@@ -68,9 +68,9 @@ Transform:
   m_Children:
   - {fileID: 7983541795160237319}
   - {fileID: 8887953496610467110}
+  - {fileID: 4330735989725969577}
   - {fileID: 283178590206741980}
   - {fileID: 6795373004407844984}
-  - {fileID: 4330735989725969577}
   m_Father: {fileID: 7852265452744017408}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &774914840495657089
@@ -190,7 +190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2590741159080367999}
   m_Layer: 0
-  m_Name: DropPoint
+  m_Name: dropPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -205,7 +205,7 @@ Transform:
   m_GameObject: {fileID: 815311717242348469}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.746, z: 0}
+  m_LocalPosition: {x: -0.165, y: 1.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -221,7 +221,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8329111998117999829}
   m_Layer: 0
-  m_Name: DropPoint
+  m_Name: dropPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,7 +236,7 @@ Transform:
   m_GameObject: {fileID: 848630887286459899}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.68, z: 0}
+  m_LocalPosition: {x: 0.067, y: 1.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -588,7 +588,9 @@ GameObject:
   - component: {fileID: 7527352211825047541}
   - component: {fileID: 5336369929970984694}
   - component: {fileID: 5612139461515968461}
-  m_Layer: 0
+  - component: {fileID: 4816191230194577364}
+  - component: {fileID: 449414763124192646}
+  m_Layer: 9
   m_Name: RightTable
   m_TagString: DropSurface
   m_Icon: {fileID: 0}
@@ -680,8 +682,42 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 2.2297657, z: 1}
-  m_Center: {x: 0, y: 0.6148833, z: 0}
+  m_Size: {x: 0.88352466, y: 2.7499807, z: 0.47876367}
+  m_Center: {x: -0.05219519, y: 0.8749909, z: -0.2606184}
+--- !u!114 &4816191230194577364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2580756494364766805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bea2014d91d66247b15760a6766b116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropPoint: {fileID: 8329111998117999829}
+--- !u!65 &449414763124192646
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2580756494364766805}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 0.99999994}
+  m_Center: {x: 0, y: -0.00000047683716, z: 0}
 --- !u!1 &2930541698534949615
 GameObject:
   m_ObjectHideFlags: 0
@@ -1203,7 +1239,7 @@ Transform:
   m_GameObject: {fileID: 4894122111681125254}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.058, y: 10.479, z: -13.065}
+  m_LocalPosition: {x: -1.235, y: 10.479, z: -13.967}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1560,7 +1596,9 @@ GameObject:
   - component: {fileID: 8570641997299989390}
   - component: {fileID: 8910686197874597612}
   - component: {fileID: 2814422456321530228}
-  m_Layer: 0
+  - component: {fileID: 4080818057552250288}
+  - component: {fileID: 7225342324195229778}
+  m_Layer: 9
   m_Name: LeftTable
   m_TagString: DropSurface
   m_Icon: {fileID: 0}
@@ -1652,8 +1690,42 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1.0203456, z: 1}
-  m_Center: {x: 0, y: 0.010172742, z: 0}
+  m_Size: {x: 0.86628544, y: 2.754394, z: 0.48042774}
+  m_Center: {x: 0.019085348, y: 0.8771972, z: -0.25978616}
+--- !u!114 &4080818057552250288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8375690667572276553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bea2014d91d66247b15760a6766b116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropPoint: {fileID: 2590741159080367999}
+--- !u!65 &7225342324195229778
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8375690667572276553}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 0.99999994}
+  m_Center: {x: 0, y: -0.00000047683716, z: 0}
 --- !u!1 &8433937935321144017
 GameObject:
   m_ObjectHideFlags: 0

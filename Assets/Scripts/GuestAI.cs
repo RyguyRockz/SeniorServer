@@ -139,6 +139,7 @@ public class GuestAI : InteractableObject
 
         // Rotate guest to face the table instantly
         Transform guestFacingPoint = targetChair.GetComponent<Chair>().GuestFacingPoint;
+        
         if (guestFacingPoint != null)
         {
             RotateTowardsInstantly(guestFacingPoint.position);
@@ -415,11 +416,13 @@ public class GuestAI : InteractableObject
 
     private void RotateTowardsInstantly(Vector3 targetPosition)
     {
-        // Calculate the direction to the target position
-        Vector3 direction = (targetPosition - transform.position).normalized;
+        // Calculate the direction to the target position. This will ignore the yaxis position of the tartget position
+        Vector3 direction = new Vector3(targetPosition.x - transform.position.x, 0, targetPosition.z - transform.position.z).normalized;
 
         // Directly set the rotation to look at the target position
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = targetRotation;
+
+        Debug.Log("Rotating guest to face: " + targetPosition);
     }
 }

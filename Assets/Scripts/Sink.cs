@@ -7,15 +7,20 @@ public class Sink : MonoBehaviour
     public ScoreManager scoreManager; // Reference to the ScoreManager
     public int scoreForPlate = 1; // Score to be added when a plate is destroyed
 
+    public LayerMask PlateLayer;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Pickup"))
+        Debug.Log("Object entered sink");
+        // Check if the object entering the sink is on the Plate layer
+        if (PlateLayer == (PlateLayer | (1 << other.gameObject.layer)))
         {
+            Debug.Log("Plate Destroyed in sink");
             StartCoroutine(DestroyPlateAfterDelay(other.gameObject, 1f));
         }
     }
 
-    private IEnumerator DestroyPlateAfterDelay(GameObject plate, float delay)
+    public IEnumerator DestroyPlateAfterDelay(GameObject plate, float delay)
     {
         yield return new WaitForSeconds(delay);
 

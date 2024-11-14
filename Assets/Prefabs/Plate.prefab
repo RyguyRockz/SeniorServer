@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5898760051024692656}
   - component: {fileID: 2183857913445158847}
   - component: {fileID: 1721109966751019308}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 1265806356949591335}
   - component: {fileID: 7778466330045618253}
   - component: {fileID: 6547403156844841562}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 2605878016016654732}
   - component: {fileID: 1932413951686237263}
   - component: {fileID: 5082305380143730893}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Food Particles (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 8507811831202699853}
   - component: {fileID: 5038811986522933877}
   - component: {fileID: 7694688558497974495}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,7 +434,7 @@ GameObject:
   - component: {fileID: 7375509918259210565}
   - component: {fileID: 2369404847861552587}
   - component: {fileID: 8330557451133232426}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Food Particles (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -541,7 +541,7 @@ GameObject:
   - component: {fileID: 8257158447610438191}
   - component: {fileID: 5451550452881945183}
   - component: {fileID: 1437846020631062493}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -643,7 +643,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1503588390232662389}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: Plate
   m_TagString: Pickup
   m_Icon: {fileID: 0}
@@ -678,7 +678,7 @@ GameObject:
   - component: {fileID: 5133264513495070173}
   - component: {fileID: 5157994976284956537}
   - component: {fileID: 7314902198738453179}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Food Particles (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -785,7 +785,7 @@ GameObject:
   - component: {fileID: 4088344730630806922}
   - component: {fileID: 7180956245794254285}
   - component: {fileID: 2265090827107687665}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Food Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -892,8 +892,8 @@ GameObject:
   - component: {fileID: 1747529378569530970}
   - component: {fileID: 3521020230509650936}
   - component: {fileID: 1000850564331213649}
-  m_Layer: 7
-  m_Name: Cube
+  m_Layer: 10
+  m_Name: Plate
   m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
