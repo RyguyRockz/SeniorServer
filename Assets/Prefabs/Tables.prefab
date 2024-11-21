@@ -697,8 +697,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropPoint: {fileID: 8329111998117999829}
-  scoreManager: {fileID: 0}
-  scoreForPlate: 1
   sink: {fileID: 0}
 --- !u!65 &449414763124192646
 BoxCollider:
@@ -1708,8 +1706,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropPoint: {fileID: 2590741159080367999}
-  scoreManager: {fileID: 0}
-  scoreForPlate: 1
   sink: {fileID: 0}
 --- !u!65 &7225342324195229778
 BoxCollider:

@@ -6,9 +6,6 @@ public class TableInventory : MonoBehaviour
 {
     public Transform dropPoint; // Point where items will snap
     private GameObject currentItem; // The item currently on the table
-
-
-
     public Sink sink; // Reference to the Sink script
 
     public bool HasItem => currentItem != null;
@@ -24,10 +21,10 @@ public class TableInventory : MonoBehaviour
         item.SetActive(true); // Make sure it's visible
 
         // Check if the placed item is named "Plate"
-        if (item.name == "Plate")
+        if (sink != null && item.name == "Plate")
         {
-            // Here, you can directly interact with the Sink script to destroy the plate
-            sink.StartCoroutine(sink.DestroyPlateAfterDelay(item, 1f)); // Call the destroy coroutine from Sink script
+            // If it's the sink, destroy the plate after a delay
+            sink.StartCoroutine(sink.DestroyPlateAfterDelay(item, 1f));
         }
     }
 

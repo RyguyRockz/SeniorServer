@@ -1,5 +1,6 @@
 using UnityEngine;
-
+using System.Collections;
+using System.Linq;
 public class PlayerInteraction : MonoBehaviour
 {
     public Transform InteractorSource;
@@ -18,6 +19,8 @@ public class PlayerInteraction : MonoBehaviour
     private bool isCleaning = false; // Flag to track if the player is cleaning
     private float cleanTimer = 0f; // Timer to track how long the E key is held down
     public float cleanDuration = 2f; // Time required to clean the spill
+
+    private Coroutine cleaningCoroutine; // To keep track of the cleaning coroutine
 
     private void Update()
     {
@@ -83,6 +86,10 @@ public class PlayerInteraction : MonoBehaviour
                 isCleaning = true;
                 CleanSpill(spill); // Clean the spill
             }
+            else if (cleanTimer < cleanDuration && cleaningCoroutine == null)
+            {
+                cleaningCoroutine = StartCoroutine(AnimateWaterScaling(spill.transform.GetChild(0))); // Animate the water scaling
+            }
         }
         else
         {
@@ -94,14 +101,37 @@ public class PlayerInteraction : MonoBehaviour
     {
         cleanTimer = 0f;
         isCleaning = false;
+        if (cleaningCoroutine != null)
+        {
+            StopCoroutine(cleaningCoroutine);
+            cleaningCoroutine = null;
+        }
     }
 
     private void CleanSpill(GameObject spill)
     {
-        Destroy(spill);
         SpillManager.Instance.OnSpillCleaned(spill); // Notify the manager
+        Destroy(spill);
         Debug.Log("Spill cleaned!");
         ResetCleaning();
+    }
+
+    private IEnumerator AnimateWaterScaling(Transform waterObject)
+    {
+        Vector3 initialScale = waterObject.localScale;
+        Vector3 targetScale = Vector3.zero;
+        float timeElapsed = 0f;
+
+        // Scale down the water object over 2 seconds
+        while (timeElapsed < 2f)
+        {
+            waterObject.localScale = Vector3.Lerp(initialScale, targetScale, timeElapsed / 2f);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        waterObject.localScale = targetScale; // Ensure it reaches zero scale
+        cleaningCoroutine = null; // Reset the coroutine reference
     }
 
     private void ShowIndicator(Transform interactable)

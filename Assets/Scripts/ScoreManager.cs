@@ -135,7 +135,11 @@ public class ScoreManager : MonoBehaviour
         // Store the score of Level 1 when it's finished
         LevelScore2 = AverageScore();
     }
-
+    public void FinishLevel3()
+    {
+        // Store the score of Level 1 when it's finished
+        LevelScore3 = AverageScore();
+    }
     // Penalty increment methods
     public void IncrementGuestsWaitedTooLong() => guestsWaitedTooLong++;
     public void IncrementGuestsDidNotOrder() => guestsDidNotOrder++;

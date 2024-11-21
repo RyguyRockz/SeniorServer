@@ -61,6 +61,11 @@ public class SpillManager : MonoBehaviour
         {
             spill.IsCleaned = true;
             activeSpills.Remove(spill);
+            Debug.Log($"Spill cleaned and removed: {spillObject.name}");
+        }
+        else
+        {
+            Debug.LogWarning($"Attempted to clean a spill not found in activeSpills: {spillObject.name}");
         }
     }
 

@@ -2361,8 +2361,8 @@ MonoBehaviour:
   guestPrefab: {fileID: 1326199288887454455, guid: 63b2d81c5eda875428200de5ccf4bbaa, type: 3}
   spawnPoints:
   - {fileID: 422187251}
-  numberOfGuests: 2
-  spawnDelay: 30
+  numberOfGuests: 3
+  spawnDelay: 20
   EndLevelTimer: 10
 --- !u!1 &434891223
 GameObject:
@@ -2559,7 +2559,7 @@ MonoBehaviour:
   - {fileID: 994129952}
   spillPrefab: {fileID: 7809503217171681158, guid: be038a6fec809ff46b2c6e3bb3aa1456, type: 3}
   spillDuration: 15
-  spillPenalty: 1
+  spillPenalty: 0
 --- !u!1 &540205776
 GameObject:
   m_ObjectHideFlags: 0
@@ -3502,7 +3502,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7852265452744017408, guid: 7bf3c1f9fbea91e4a9df9331f05b5da1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.527617
+      value: 2.25
       objectReference: {fileID: 0}
     - target: {fileID: 7852265452744017408, guid: 7bf3c1f9fbea91e4a9df9331f05b5da1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3930,10 +3930,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InteractorSource: {fileID: 78320504}
   InteractRange: 2
-  itemHolder: {fileID: 1652352315}
   currentItems:
   - {fileID: 0}
   - {fileID: 0}
+  tray: {fileID: 1051363008}
+  itemSlot1: {fileID: 1366571091}
+  itemSlot2: {fileID: 1140100836}
   interactableIndicatorPrefab: {fileID: 7210723647379569769, guid: 7bb85fd648223204c8ef51c0f65018bc, type: 3}
   interactableLayers:
     serializedVersion: 2
@@ -4136,6 +4138,7 @@ MonoBehaviour:
   guestsReceivedWrongOrder: 0
   guestsFoodTookTooLong: 0
   spillsTookTooLong: 0
+  askingForOrderAgain: 0
 --- !u!1 &820852512
 GameObject:
   m_ObjectHideFlags: 0
@@ -4703,7 +4706,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7852265452744017408, guid: 7bf3c1f9fbea91e4a9df9331f05b5da1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.0276165
+      value: 11.65
       objectReference: {fileID: 0}
     - target: {fileID: 7852265452744017408, guid: 7bf3c1f9fbea91e4a9df9331f05b5da1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6133,7 +6136,7 @@ Transform:
   m_GameObject: {fileID: 1140100835}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.247}
+  m_LocalPosition: {x: 0, y: 11.100006, z: -0.247}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7050,7 +7053,7 @@ Transform:
   m_GameObject: {fileID: 1366571090}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.241}
+  m_LocalPosition: {x: 0, y: 11.1, z: 0.241}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10039,7 +10042,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7852265452744017408, guid: 7bf3c1f9fbea91e4a9df9331f05b5da1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.777617
+      value: 7.09
       objectReference: {fileID: 0}
     - target: {fileID: 7852265452744017408, guid: 7bf3c1f9fbea91e4a9df9331f05b5da1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -15938,8 +15941,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropPoint: {fileID: 1759501232}
-  scoreManager: {fileID: 0}
-  scoreForPlate: 1
   sink: {fileID: 8825782593499172903}
 --- !u!4 &8846421956285299564
 Transform:

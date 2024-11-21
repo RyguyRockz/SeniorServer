@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3400140621648639919}
   m_Layer: 6
-  m_Name: GuestTutorial
+  m_Name: Level2Guest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -260,13 +260,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exitPoint: {fileID: 0}
-  sitTimeLimit: 500
-  foodWaitTimeLimit: 500
+  sitTimeLimit: 20
+  foodWaitTimeLimit: 30
   eatingDuration: 5
   walkSpeed: 4
   platePrefab: {fileID: 4871798394993491860, guid: e1ea864f194646640be9f5d513603af2, type: 3}
   currentFoodObject: {fileID: 0}
-  spillSpawnChance: 1
+  LeavingRest: 0
+  spillSpawnChance: 0.15
 --- !u!65 &5813118107360814622
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -286,8 +287,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.1440018, y: 0.9738232, z: 1.2556534}
-  m_Center: {x: 0.008755386, y: 0.4628206, z: 0.22267246}
+  m_Size: {x: 1.1956421, y: 0.9738232, z: 1.2198358}
+  m_Center: {x: -0.03555101, y: 0.4628206, z: 0.20476365}
 --- !u!54 &2100135178223463586
 Rigidbody:
   m_ObjectHideFlags: 0

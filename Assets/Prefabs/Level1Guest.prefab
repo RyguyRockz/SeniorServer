@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3400140621648639919}
   m_Layer: 6
-  m_Name: guestPrefab
+  m_Name: Level1Guest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -261,11 +261,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   exitPoint: {fileID: 0}
   sitTimeLimit: 20
-  foodWaitTimeLimit: 30
+  foodWaitTimeLimit: 35
   eatingDuration: 5
   walkSpeed: 4
   platePrefab: {fileID: 4871798394993491860, guid: e1ea864f194646640be9f5d513603af2, type: 3}
   currentFoodObject: {fileID: 0}
+  LeavingRest: 0
   spillSpawnChance: 0.15
 --- !u!65 &5813118107360814622
 BoxCollider:

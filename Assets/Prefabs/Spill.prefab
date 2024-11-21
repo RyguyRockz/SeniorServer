@@ -117,6 +117,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7560297424803236804}
   - component: {fileID: 4143872173521815300}
+  - component: {fileID: 4413847167511241910}
   m_Layer: 8
   m_Name: Spill
   m_TagString: Spill
@@ -167,6 +168,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &4413847167511241910
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2953245649054674350}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.6899676
+  m_Height: 3.469472
+  m_Direction: 1
+  m_Center: {x: -0.19539243, y: 2.293344, z: -0.47949034}
 --- !u!1 &3020000063333659891
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,7 +309,6 @@ GameObject:
   - component: {fileID: 6620570427543919896}
   - component: {fileID: 7169575090595576573}
   - component: {fileID: 5557750099738563109}
-  - component: {fileID: 7294965023943398785}
   m_Layer: 8
   m_Name: Water
   m_TagString: Spill
@@ -362,29 +385,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &7294965023943398785
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4901294996716788004}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 119.54465
-  m_Direction: 1
-  m_Center: {x: 0.000000077433775, y: 42.210007, z: -0.000000059604645}
 --- !u!1 &6022957069585278901
 GameObject:
   m_ObjectHideFlags: 0

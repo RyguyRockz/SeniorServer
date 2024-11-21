@@ -139,7 +139,13 @@ public class SceneManagment : MonoBehaviour
 
     public void CompleteLevel2()
     {
-        ScoreManager.Instance.FinishLevel2(); // Capture Level 1 score
+        ScoreManager.Instance.FinishLevel2(); // Capture Level 2 score
+        SceneManager.LoadScene("Main Menu");
+    }
+
+    public void CompleteLevel3()
+    {
+        ScoreManager.Instance.FinishLevel3(); // Capture Level 2 score
         SceneManager.LoadScene("Main Menu");
     }
     public void Exit()
@@ -171,6 +177,22 @@ public class SceneManagment : MonoBehaviour
         if (levelName == "Level2" && ScoreManager.Instance.LevelScore1 < 3)
         {
             levelAccessMessage.text = "You need at least 3 stars on Level 1 to access Level 2!"; // Set feedback message
+            StartCoroutine(ClearLevelAccessMessageAfterDelay(3f)); // Clear message after 3 seconds
+            return; // Prevent loading the level
+        }
+
+        // Load the level
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(levelName);
+        ScoreManager.Instance.StartNewLevel();
+    }
+
+    public void LoadLevel3(string levelName)
+    {
+        // Check if the player has enough score from Level 1 to access Level 2
+        if (levelName == "Level3" && ScoreManager.Instance.LevelScore1 < 3)
+        {
+            levelAccessMessage.text = "You need at least 3 stars on Level 2 to access Level 3!"; // Set feedback message
             StartCoroutine(ClearLevelAccessMessageAfterDelay(3f)); // Clear message after 3 seconds
             return; // Prevent loading the level
         }
