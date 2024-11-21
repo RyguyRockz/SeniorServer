@@ -5,7 +5,7 @@ using UnityEngine;
 public class Sink : MonoBehaviour
 {
     public ScoreManager scoreManager; // Reference to the ScoreManager
-    public int scoreForPlate = 1; // Score to be added when a plate is destroyed
+    public int scoreForPlate; // Score to be added when a plate is destroyed
 
     public LayerMask PlateLayer;
 
@@ -26,7 +26,7 @@ public class Sink : MonoBehaviour
 
         // Call the AddScore method to increase the player's score
         scoreManager.AddScore(scoreForPlate);
-
+        Debug.Log("Point for putting plate away");
         // Destroy the plate
         Destroy(plate);
     }

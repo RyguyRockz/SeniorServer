@@ -4,8 +4,11 @@ public class PlayerInteraction : MonoBehaviour
 {
     public Transform InteractorSource;
     public float InteractRange;
-    public Transform itemHolder; // Parent object to hold items above player
+
     public GameObject[] currentItems = new GameObject[2]; // Array to hold up to 2 items
+    public Transform tray; // Tray GameObject
+    public Transform itemSlot1; // Slot 1 on the tray
+    public Transform itemSlot2; // Slot 2 on the tray
 
     public GameObject interactableIndicatorPrefab; // Prefab to show above interactable object
     private GameObject activeIndicator; // To store the current active indicator
@@ -139,14 +142,26 @@ public class PlayerInteraction : MonoBehaviour
             item = tableInventory.PickUpItem();
         }
 
+        // Disable colliders for the item and its children
+        DisableColliders(item);
+
+        // Find an empty slot (itemSlot1 or itemSlot2) and place the item there
         for (int i = 0; i < currentItems.Length; i++)
         {
             if (currentItems[i] == null)
             {
                 currentItems[i] = item;
-                item.SetActive(false);
-                item.transform.position = itemHolder.position + new Vector3(0, -i * 0.5f, 0);
-                item.transform.SetParent(itemHolder);
+                item.SetActive(true);  // Reactivate the item when it's picked up
+
+                // Position the item in its respective slot
+                Transform slot = (i == 0) ? itemSlot1 : itemSlot2;
+                item.transform.position = slot.position;
+                item.transform.SetParent(slot);  // Parent the item to the slot for easy positioning
+
+                // Scale the item down when picked up
+                Vector3 currentScale = item.transform.localScale;
+                item.transform.localScale = currentScale * 0.8f;  // Scale down by 0.8
+
                 return;
             }
         }
@@ -168,8 +183,18 @@ public class PlayerInteraction : MonoBehaviour
                     {
                         if (!tableInventory.HasItem) // Place item if table is empty
                         {
+                            // Place the item in inventory
                             tableInventory.PlaceItem(currentItems[i]);
-                            currentItems[i] = null; // Remove from player's inventory
+
+                            // Scale the item back by dividing by .8
+                            currentItems[i].transform.localScale /= .8f;
+
+                            // Re-enable colliders for the item and its children
+                            EnableColliders(currentItems[i]);
+
+                            // Remove the item from the player's inventory and reset its parent
+                            currentItems[i].transform.SetParent(null);  // Remove the item from the slot
+                            currentItems[i] = null; // Remove from the player's inventory
                             return;
                         }
                         else
@@ -186,11 +211,90 @@ public class PlayerInteraction : MonoBehaviour
                 {
                     Debug.Log("No table detected. Drop action canceled.");
                 }
-                // Exit the loop after attempting to drop the item
+
                 return;
             }
         }
     }
 
 
+    private void PlaceOnTray(GameObject item, Transform slot)
+    {
+        item.SetActive(true);
+        item.transform.SetParent(slot);
+        item.transform.localPosition = Vector3.zero;
+        item.transform.localRotation = Quaternion.identity;
+    }
+
+    private void ClearSlot(Transform slot)
+    {
+        foreach (Transform child in slot)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    private void DisableColliders(GameObject item)
+    {
+        // Disable the collider on the item itself (if it's a BoxCollider or CapsuleCollider)
+        BoxCollider itemBoxCollider = item.GetComponent<BoxCollider>();
+        if (itemBoxCollider != null)
+        {
+            itemBoxCollider.enabled = false;
+        }
+
+        CapsuleCollider itemCapsuleCollider = item.GetComponent<CapsuleCollider>();
+        if (itemCapsuleCollider != null)
+        {
+            itemCapsuleCollider.enabled = false;
+        }
+
+        // Recursively disable colliders on all child objects (if any)
+        foreach (Transform child in item.transform)
+        {
+            BoxCollider childBoxCollider = child.GetComponent<BoxCollider>();
+            if (childBoxCollider != null)
+            {
+                childBoxCollider.enabled = false;
+            }
+
+            CapsuleCollider childCapsuleCollider = child.GetComponent<CapsuleCollider>();
+            if (childCapsuleCollider != null)
+            {
+                childCapsuleCollider.enabled = false;
+            }
+        }
+    }
+
+    private void EnableColliders(GameObject item)
+    {
+        // Re-enable the collider on the item itself (if it's a BoxCollider or CapsuleCollider)
+        BoxCollider itemBoxCollider = item.GetComponent<BoxCollider>();
+        if (itemBoxCollider != null)
+        {
+            itemBoxCollider.enabled = true;
+        }
+
+        CapsuleCollider itemCapsuleCollider = item.GetComponent<CapsuleCollider>();
+        if (itemCapsuleCollider != null)
+        {
+            itemCapsuleCollider.enabled = true;
+        }
+
+        // Recursively re-enable colliders on all child objects (if any)
+        foreach (Transform child in item.transform)
+        {
+            BoxCollider childBoxCollider = child.GetComponent<BoxCollider>();
+            if (childBoxCollider != null)
+            {
+                childBoxCollider.enabled = true;
+            }
+
+            CapsuleCollider childCapsuleCollider = child.GetComponent<CapsuleCollider>();
+            if (childCapsuleCollider != null)
+            {
+                childCapsuleCollider.enabled = true;
+            }
+        }
+    }
 }

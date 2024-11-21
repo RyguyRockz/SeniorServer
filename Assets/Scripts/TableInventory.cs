@@ -7,8 +7,7 @@ public class TableInventory : MonoBehaviour
     public Transform dropPoint; // Point where items will snap
     private GameObject currentItem; // The item currently on the table
 
-    public ScoreManager scoreManager; // Reference to the ScoreManager
-    public int scoreForPlate = 1; // Score to be added when a plate is destroyed
+
 
     public Sink sink; // Reference to the Sink script
 

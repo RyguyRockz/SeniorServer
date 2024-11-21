@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 195990413615452555}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.67538583, y: -0.27283764, z: -1.6322622}
+  m_LocalPosition: {x: 1, y: -0.27283764, z: -1.6322622}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -205,7 +205,7 @@ Transform:
   m_GameObject: {fileID: 815311717242348469}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.165, y: 1.2, z: 0}
+  m_LocalPosition: {x: -0.165, y: 1.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -236,7 +236,7 @@ Transform:
   m_GameObject: {fileID: 848630887286459899}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.067, y: 1.2, z: 0}
+  m_LocalPosition: {x: 0.067, y: 1.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -606,8 +606,8 @@ Transform:
   m_GameObject: {fileID: 2580756494364766805}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.57461417, y: 10.019583, z: -13.972262}
-  m_LocalScale: {x: 1, y: 0.16000001, z: 1.4}
+  m_LocalPosition: {x: -0.409, y: 10.019583, z: -13.972262}
+  m_LocalScale: {x: 1.35, y: 0.16000001, z: 1.4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8329111998117999829}
@@ -697,6 +697,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropPoint: {fileID: 8329111998117999829}
+  scoreManager: {fileID: 0}
+  scoreForPlate: 1
+  sink: {fileID: 0}
 --- !u!65 &449414763124192646
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -850,7 +853,7 @@ Transform:
   m_GameObject: {fileID: 3892388990470456368}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -2.824614, y: -0.27283764, z: -26.312263}
+  m_LocalPosition: {x: -3.2, y: -0.27283764, z: -26.312263}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1614,8 +1617,8 @@ Transform:
   m_GameObject: {fileID: 8375690667572276553}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.5746142, y: 10.019583, z: -13.972262}
-  m_LocalScale: {x: 1, y: 0.16000001, z: 1.4}
+  m_LocalPosition: {x: -1.759, y: 10.019583, z: -13.972262}
+  m_LocalScale: {x: 1.35, y: 0.16000001, z: 1.4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2590741159080367999}
@@ -1705,6 +1708,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropPoint: {fileID: 2590741159080367999}
+  scoreManager: {fileID: 0}
+  scoreForPlate: 1
+  sink: {fileID: 0}
 --- !u!65 &7225342324195229778
 BoxCollider:
   m_ObjectHideFlags: 0

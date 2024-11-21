@@ -16,6 +16,7 @@ public class ScoreManager : MonoBehaviour
     public int guestsReceivedWrongOrder = 0;
     public int guestsFoodTookTooLong = 0;
     public int spillsTookTooLong = 0;
+    public int askingForOrderAgain = 0;
 
     // Singleton implementation for easy access
     public static ScoreManager Instance { get; private set; }
@@ -59,7 +60,8 @@ public class ScoreManager : MonoBehaviour
                $"Guests that did not order: {guestsDidNotOrder}\n" +
                $"Guests that received the wrong order: {guestsReceivedWrongOrder}\n" +
                $"Guests whose food took too long: {guestsFoodTookTooLong}\n" +
-               $"Spills that took too long to clean: {spillsTookTooLong}\n";
+               $"Spills that took too long to clean: {spillsTookTooLong}\n" +
+               $"Times asking for Guest's order again: {askingForOrderAgain}\n";
     }
 
     public void AddScore(int score)
@@ -140,6 +142,5 @@ public class ScoreManager : MonoBehaviour
     public void IncrementGuestsReceivedWrongOrder() => guestsReceivedWrongOrder++;
     public void IncrementGuestsFoodTookTooLong() => guestsFoodTookTooLong++;
     public void IncrementSpillsTookTooLong() => spillsTookTooLong++;
-
-
+    public void IncrementAskingOrderAgain() => askingForOrderAgain++;
 }
