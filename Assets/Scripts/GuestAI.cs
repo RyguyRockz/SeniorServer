@@ -23,8 +23,12 @@ public class GuestAI : InteractableObject
     public GameObject platePrefab;
     public GameObject currentFoodObject;
 
+    private int interactionCount = 0; // Tracks how many times the player interacted to get the order
+    private bool canInteract = true; // Tracks if the player can interact
+
     public delegate void GuestLeftEventHandler();
     public event GuestLeftEventHandler OnGuestLeft;
+    public bool LeavingRest = false;
 
     private ScoreManager scoreManager;
     private int ratingScore = 0; // Current rating score for the guest
@@ -167,6 +171,7 @@ public class GuestAI : InteractableObject
 
     private IEnumerator LeaveRestaurant()
     {
+        LeavingRest = true;
         targetChair.GetComponent<Chair>().IsOccupied = false; // Mark the chair as unoccupied
         if (exitPoint != null)
         {
@@ -240,9 +245,46 @@ public class GuestAI : InteractableObject
 
     public override void Interact()
     {
-        TakeOrder();
+        if (canInteract)
+        {
+            HandleOrderInteraction();
+        }
+        else
+        {
+            Debug.Log("Interaction is on cooldown. Please wait.");
+        }
     }
 
+    private void HandleOrderInteraction()
+    {
+
+        if (isEating || LeavingRest)
+        {
+            Debug.Log("Cannot interact. Guest is either eating or leaving.");
+            return;
+        }
+        interactionCount++;
+
+        if (interactionCount == 1)
+        {
+            TakeOrder();
+        }
+        else
+        {
+            ShowOrderAgain();
+            scoreManager.SubtractScore(1);
+        }
+
+        // Start the interaction cooldown
+        StartCoroutine(InteractionCooldown());
+    }
+
+    private IEnumerator InteractionCooldown()
+    {
+        canInteract = false; // Disable interaction
+        yield return new WaitForSeconds(1f); // Wait for 1 second
+        canInteract = true; // Enable interaction
+    }
     public void TakeOrder()
     {
         if (!IsSeated() || hasOrdered) return;
@@ -263,6 +305,21 @@ public class GuestAI : InteractableObject
         }
     }
 
+    private void ShowOrderAgain()
+    {
+        GameObject orderObject = LoadOrderPrefab(order);
+        if (orderObject != null)
+        {
+            GameObject instance = Instantiate(orderObject, transform.position + Vector3.up * 1.5f, Quaternion.identity);
+            instance.transform.localScale = new Vector3(1f, 1f, 1f);
+            instance.transform.SetParent(transform);
+
+            scoreManager.SubtractScore(1);
+            Debug.Log("Player penalized for asking again.");
+
+            Destroy(instance, 3f);
+        }
+    }
     public void ReceiveFood(int deliveredOrder)
     {
         if (!hasOrdered || isEating) return;

@@ -75,7 +75,7 @@ public class GuestSpawner : MonoBehaviour
     private void HandleGuestLeft()
     {
         guestsLeft++; // Increment the count of guests who have left
-        if (guestsLeft == guestsSpawned) // Check if all guests have left
+        if (guestsLeft == numberOfGuests) // Check if all guests have left
         {
             StartCoroutine(EndLevel()); // Start the coroutine to wait before ending the level
         }
