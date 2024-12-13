@@ -121,8 +121,8 @@ public class GuestAI : InteractableObject
         if (chairWaitTime >= sitTimeLimit)
         {
             Debug.Log("Guest waited too long for a chair.");
-            scoreManager.SubtractScore(1);
-            ScoreManager.Instance.IncrementGuestsWaitedTooLong();
+            scoreManager.ApplyPenalty(1);
+            ScoreManager.Instance.PenalizeGuestsWaitedTooLong();
             yield break; // Guest leaves if chair not found in time
         }
         else
@@ -202,8 +202,8 @@ public class GuestAI : InteractableObject
 
         if (!hasOrdered)
         {
-            scoreManager.SubtractScore(1);
-            ScoreManager.Instance.IncrementGuestsDidNotOrder();
+            scoreManager.ApplyPenalty(1);
+            ScoreManager.Instance.PenalizeGuestsDidNotOrder();
             Debug.Log("Order not taken fast enough. Guest is leaving.");
             uiManager.ShowText(uiManager.guestLeaveText, "I waited too long! I'm leaving!", 3f);
             yield break; // Stop execution
@@ -229,8 +229,8 @@ public class GuestAI : InteractableObject
 
         if (!hasReceivedFood)
         {
-            scoreManager.SubtractScore(1);
-            ScoreManager.Instance.IncrementGuestsFoodTookTooLong();
+            scoreManager.ApplyPenalty(1);
+            ScoreManager.Instance.PenalizeGuestsFoodTookTooLong();
             uiManager.ShowText(uiManager.guestIncorrectFoodText, "I Haven't Gotten My Food! I'm Leaving!", 3f);
             yield break;
         }
@@ -271,8 +271,9 @@ public class GuestAI : InteractableObject
         }
         else
         {
+            scoreManager.ApplyPenalty(1);
+            ScoreManager.Instance.PenalizeAskingOrderAgain();
             ShowOrderAgain();
-            scoreManager.SubtractScore(1);
         }
 
         // Start the interaction cooldown
@@ -314,7 +315,7 @@ public class GuestAI : InteractableObject
             instance.transform.localScale = new Vector3(1f, 1f, 1f);
             instance.transform.SetParent(transform);
 
-            scoreManager.SubtractScore(1);
+           
             Debug.Log("Player penalized for asking again.");
 
             Destroy(instance, 3f);
@@ -408,8 +409,8 @@ public class GuestAI : InteractableObject
         }
         else
         {
-            scoreManager.SubtractScore(1);
-            ScoreManager.Instance.IncrementGuestsReceivedWrongOrder();
+            scoreManager.ApplyPenalty(1);
+            ScoreManager.Instance.PenalizeGuestsReceivedWrongOrder();
             uiManager.ShowText(uiManager.guestIncorrectFoodText, "This isn't what I ordered!", 3f);
             Debug.Log("Guest ate the wrong food.");
             // Destroy the food object after eating

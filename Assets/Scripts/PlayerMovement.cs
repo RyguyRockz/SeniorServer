@@ -49,8 +49,18 @@ public class PlayerMovement : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hitInfo, maxDistance: 300f))
         {
             var target = hitInfo.point;
-            target.y = transform.position.y;
-            transform.LookAt(target);
+
+            // Ignore rotation if the mouse is too close to the player
+            float distanceToTarget = Vector3.Distance(transform.position, target);
+            if (distanceToTarget < 0.1f) // Adjust this threshold as needed
+            {
+                return;
+            }
+
+            target.y = transform.position.y; // Keep the rotation in the horizontal plane
+            // Smoothly rotate towards the target
+            Quaternion targetRotation = Quaternion.LookRotation(target - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
         }
     }
 

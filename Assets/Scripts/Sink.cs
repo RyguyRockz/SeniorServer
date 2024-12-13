@@ -18,6 +18,7 @@ public class Sink : MonoBehaviour
             Debug.Log("Plate Destroyed in sink");
             StartCoroutine(DestroyPlateAfterDelay(other.gameObject, 1f));
         }
+        
     }
 
     public IEnumerator DestroyPlateAfterDelay(GameObject plate, float delay)

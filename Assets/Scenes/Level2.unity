@@ -2411,7 +2411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotateTowardMouse: 1
   MovementSpeed: 4
-  RotationSpeed: 2
+  RotationSpeed: 15
   Camera: {fileID: 1204575918}
 --- !u!54 &240695903
 Rigidbody:
@@ -10519,7 +10519,6 @@ MonoBehaviour:
   - {fileID: 745122307}
   spillPrefab: {fileID: 7809503217171681158, guid: be038a6fec809ff46b2c6e3bb3aa1456, type: 3}
   spillDuration: 15
-  spillPenalty: 0
 --- !u!1 &1446525647
 GameObject:
   m_ObjectHideFlags: 0

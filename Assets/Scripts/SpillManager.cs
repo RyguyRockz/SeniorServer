@@ -8,7 +8,7 @@ public class SpillManager : MonoBehaviour
     public Transform[] spillSpawnPoints; // Assign in inspector
     public GameObject spillPrefab;
     public float spillDuration = 15f; // Time before spill affects the score
-    public int spillPenalty = 5; // Points to subtract if not cleaned
+   
 
     private List<Spill> activeSpills = new List<Spill>();
 
@@ -44,8 +44,8 @@ public class SpillManager : MonoBehaviour
 
         if (!spill.IsCleaned)
         {
-            ScoreManager.Instance.SubtractScore(spillPenalty);
-            ScoreManager.Instance.IncrementSpillsTookTooLong();
+            //ScoreManager.Instance.ApplyPenalty(1);
+            //ScoreManager.Instance.PenalizeSpillsTookTooLong();
             Debug.Log("Score decreased due to uncleaned spill.");
         }
 
@@ -59,8 +59,8 @@ public class SpillManager : MonoBehaviour
 
         if (spill != null)
         {
-            spill.IsCleaned = true;
-            activeSpills.Remove(spill);
+            spill.IsCleaned = true; // Mark the spill as cleaned
+            activeSpills.Remove(spill); // Remove it from active spills
             Debug.Log($"Spill cleaned and removed: {spillObject.name}");
         }
         else

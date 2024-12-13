@@ -785,7 +785,6 @@ MonoBehaviour:
   - {fileID: 1308274708}
   spillPrefab: {fileID: 7809503217171681158, guid: be038a6fec809ff46b2c6e3bb3aa1456, type: 3}
   spillDuration: 500
-  spillPenalty: 1
 --- !u!1 &198466456
 GameObject:
   m_ObjectHideFlags: 0
@@ -7404,7 +7403,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotateTowardMouse: 1
   MovementSpeed: 4
-  RotationSpeed: 2
+  RotationSpeed: 15
   Camera: {fileID: 1216117108}
 --- !u!54 &1105090563
 Rigidbody:

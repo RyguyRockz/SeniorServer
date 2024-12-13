@@ -111,7 +111,7 @@ public class PlayerInteraction : MonoBehaviour
     private void CleanSpill(GameObject spill)
     {
         SpillManager.Instance.OnSpillCleaned(spill); // Notify the manager
-        Destroy(spill);
+        Destroy(spill); // Destroy after marking it as cleaned
         Debug.Log("Spill cleaned!");
         ResetCleaning();
     }

@@ -15,4 +15,12 @@ public class Spill : MonoBehaviour
     {
         return Time.time - spawnTime; // Returns how long the spill has existed
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            SpillManager.Instance.OnSpillCleaned(gameObject);
+        }
+    }
 }

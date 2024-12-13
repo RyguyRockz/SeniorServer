@@ -28,6 +28,7 @@ public class ScoreManager : MonoBehaviour
 
     // Current score for the active level
     private float currentLevelScore = 0;
+    private int penaltyPoints = 0; // Total penalty points applied
 
     private void Awake()
     {
@@ -41,14 +42,13 @@ public class ScoreManager : MonoBehaviour
             Destroy(gameObject); // Ensure there's only one instance
         }
     }
-    
-   
+
     public void InitializeUI(TextMeshProUGUI avgScoreText, TextMeshProUGUI levelScoreText)
     {
         averageScoreText = avgScoreText;
         levelOverScoreText = levelScoreText;
 
-        // initialize them to avoid NullReference
+        // Initialize them to avoid NullReference
         if (averageScoreText != null) averageScoreText.text = "Score: 0";
         if (levelOverScoreText != null) levelOverScoreText.text = "0 Stars";
     }
@@ -56,12 +56,12 @@ public class ScoreManager : MonoBehaviour
     public string GetPenaltySummary()
     {
         return
-               $"Guests that waited too long to be seated: {guestsWaitedTooLong}\n" +
-               $"Guests that did not order: {guestsDidNotOrder}\n" +
-               $"Guests that received the wrong order: {guestsReceivedWrongOrder}\n" +
-               $"Guests whose food took too long: {guestsFoodTookTooLong}\n" +
-               $"Spills that took too long to clean: {spillsTookTooLong}\n" +
-               $"Times asking for Guest's order again: {askingForOrderAgain}\n";
+            $"Guests that waited too long to be seated: {guestsWaitedTooLong}\n" +
+            $"Guests that did not order: {guestsDidNotOrder}\n" +
+            $"Guests that received the wrong order: {guestsReceivedWrongOrder}\n" +
+            $"Guests whose food took too long: {guestsFoodTookTooLong}\n" +
+            $"Spills that took too long to clean: {spillsTookTooLong}\n" +
+            $"Times asking for Guest's order again: {askingForOrderAgain}\n";
     }
 
     public void AddScore(int score)
@@ -76,18 +76,22 @@ public class ScoreManager : MonoBehaviour
         totalNumberOfGuests++;
     }
 
-    public void SubtractScore(int score)
+    public void ApplyPenalty(int penalty)
     {
-        guestScores.Remove(score);
+        penaltyPoints += penalty;
+        Debug.Log($"Penalty applied: {penalty}. Total penalties: {penaltyPoints}");
         UpdateAverageScore();
-        Debug.Log($"Score subtracted: {score}. Total scores: {guestScores.Count}");
     }
 
     private void UpdateAverageScore()
     {
-        if (totalNumberOfGuests == 0) return;
+        if (totalNumberOfGuests == 0)
+        {
+            Debug.LogWarning("No guests to calculate an average score.");
+            return;
+        }
 
-        float averageScore = guestScores.Sum() / (float)totalNumberOfGuests;
+        float averageScore = (guestScores.Sum() - penaltyPoints) / (float)totalNumberOfGuests;
         string scoreText = "Score: " + averageScore.ToString("F1");
 
         if (averageScoreText != null)
@@ -96,10 +100,9 @@ public class ScoreManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError(guestScores);
-
             Debug.LogError("averageScoreText is null!");
         }
+
         if (levelOverScoreText != null) // Check if levelOverScoreText is assigned
         {
             levelOverScoreText.text = averageScore.ToString("F1") + " Stars";
@@ -107,44 +110,74 @@ public class ScoreManager : MonoBehaviour
     }
 
     // Call this method to start a new level
-    public void StartNewLevel()
+    public void StartNewLevel(bool resetScore = false)
     {
-        
-        currentLevelScore = 0; // Reset current score for the new level
-        guestScores.Clear(); // Clear guest scores for the new level
-        totalNumberOfGuests = 0;// Reset guest count for the new level
+        // Optionally reset score if required
+        if (resetScore)
+        {
+            currentLevelScore = 0; // Reset current score for the new level
+            guestScores.Clear(); // Clear guest scores for the new level
+            totalNumberOfGuests = 0; // Reset guest count for the new level
+            penaltyPoints = 0; // Reset penalties
+        }
     }
 
-   
-
-    // This is for Level Selection Purposes Only
+    // Calculate average score for level completion
     public float AverageScore()
     {
         if (totalNumberOfGuests == 0) return 0f;
-        return guestScores.Sum() / (float)totalNumberOfGuests; // Calculate average score
+        return (guestScores.Sum() - penaltyPoints) / (float)totalNumberOfGuests;
     }
 
     public void FinishLevel1()
     {
-        // Store the score of Level 1 when it's finished
         LevelScore1 = AverageScore();
     }
 
     public void FinishLevel2()
     {
-        // Store the score of Level 1 when it's finished
         LevelScore2 = AverageScore();
     }
+
     public void FinishLevel3()
     {
-        // Store the score of Level 1 when it's finished
         LevelScore3 = AverageScore();
     }
+
     // Penalty increment methods
-    public void IncrementGuestsWaitedTooLong() => guestsWaitedTooLong++;
-    public void IncrementGuestsDidNotOrder() => guestsDidNotOrder++;
-    public void IncrementGuestsReceivedWrongOrder() => guestsReceivedWrongOrder++;
-    public void IncrementGuestsFoodTookTooLong() => guestsFoodTookTooLong++;
-    public void IncrementSpillsTookTooLong() => spillsTookTooLong++;
-    public void IncrementAskingOrderAgain() => askingForOrderAgain++;
+    public void PenalizeGuestsWaitedTooLong()
+    {
+        ApplyPenalty(1); // Example penalty value
+        guestsWaitedTooLong++;
+    }
+
+    public void PenalizeGuestsDidNotOrder()
+    {
+        ApplyPenalty(1); // Example penalty value
+        guestsDidNotOrder++;
+    }
+
+    public void PenalizeGuestsReceivedWrongOrder()
+    {
+        ApplyPenalty(1); // Example penalty value
+        guestsReceivedWrongOrder++;
+    }
+
+    public void PenalizeGuestsFoodTookTooLong()
+    {
+        ApplyPenalty(1); // Example penalty value
+        guestsFoodTookTooLong++;
+    }
+
+    public void PenalizeSpillsTookTooLong()
+    {
+        ApplyPenalty(1); // Example penalty value
+        spillsTookTooLong++;
+    }
+
+    public void PenalizeAskingOrderAgain()
+    {
+        ApplyPenalty(1); // Example penalty value
+        askingForOrderAgain++;
+    }
 }

@@ -2559,7 +2559,6 @@ MonoBehaviour:
   - {fileID: 994129952}
   spillPrefab: {fileID: 7809503217171681158, guid: be038a6fec809ff46b2c6e3bb3aa1456, type: 3}
   spillDuration: 15
-  spillPenalty: 0
 --- !u!1 &540205776
 GameObject:
   m_ObjectHideFlags: 0
@@ -3772,7 +3771,7 @@ GameObject:
   - component: {fileID: 769415679}
   m_Layer: 3
   m_Name: PlayerCharacter
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3818,7 +3817,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotateTowardMouse: 1
   MovementSpeed: 4
-  RotationSpeed: 2
+  RotationSpeed: 15
   Camera: {fileID: 963194227}
 --- !u!136 &769415673
 CapsuleCollider:
@@ -5783,7 +5782,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2

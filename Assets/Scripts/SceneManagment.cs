@@ -189,8 +189,8 @@ public class SceneManagment : MonoBehaviour
 
     public void LoadLevel3(string levelName)
     {
-        // Check if the player has enough score from Level 1 to access Level 2
-        if (levelName == "Level3" && ScoreManager.Instance.LevelScore1 < 3)
+        // Check if the player has enough score from Level 2 to access Level 3
+        if (levelName == "Level3" && ScoreManager.Instance.LevelScore2 < 3)
         {
             levelAccessMessage.text = "You need at least 3 stars on Level 2 to access Level 3!"; // Set feedback message
             StartCoroutine(ClearLevelAccessMessageAfterDelay(3f)); // Clear message after 3 seconds
@@ -205,18 +205,14 @@ public class SceneManagment : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Check if the loaded scene is the level you want to initialize
-        if (scene.name == "Level1") // Change this to the correct level name
+        // Check if the scene is one of the levels (Level1, Level2, Level3)
+        if (scene.name == "Level1" || scene.name == "Level2" || scene.name == "Level3")
         {
-            ScoreManager.Instance.StartNewLevel();
+            ScoreManager.Instance.StartNewLevel(false); // Do not reset score for any level transition
         }
-        if (scene.name == "Level2") // Change this to the correct level name
+        else if (scene.name == "Main Menu")
         {
-            ScoreManager.Instance.StartNewLevel();
-        }
-        if (scene.name == "Level3") // Change this to the correct level name
-        {
-            ScoreManager.Instance.StartNewLevel();
+            ScoreManager.Instance.StartNewLevel(true); // Reset score when returning to the main menu
         }
     }
 
