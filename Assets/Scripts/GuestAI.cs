@@ -37,6 +37,12 @@ public class GuestAI : InteractableObject
 
     private UIManager uiManager;
 
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -103,6 +109,7 @@ public class GuestAI : InteractableObject
 
     private IEnumerator GuestRoutine()
     {
+        audioManager.PlaySFX(audioManager.DoorOpenSFX);
         // Find a random chair and sit down
         while (true)
         {

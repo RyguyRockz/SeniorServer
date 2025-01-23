@@ -8,7 +8,12 @@ public class Sink : MonoBehaviour
     public int scoreForPlate; // Score to be added when a plate is destroyed
 
     public LayerMask PlateLayer;
-
+    
+    AudioManager audioManager;
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Object entered sink");
@@ -29,6 +34,7 @@ public class Sink : MonoBehaviour
         scoreManager.AddScore(scoreForPlate);
         Debug.Log("Point for putting plate away");
         // Destroy the plate
+        audioManager.PlaySFX(audioManager.PlateDestoryedSFX);
         Destroy(plate);
     }
 }

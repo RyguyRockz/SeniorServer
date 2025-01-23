@@ -33,11 +33,19 @@ public class Terminal : InteractableObject
     public float drink1Delay = 1.5f;
     public float drink2Delay = 2.5f;
     public float drink3Delay = 3.5f;
+    
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     public override void Interact()
     {
         if (terminalCanvas != null)
         {
+            audioManager.PlaySFX(audioManager.TerminalOpenSFX);
             terminalCanvas.SetActive(true); // Show the terminal UI
         }
     }
@@ -46,6 +54,8 @@ public class Terminal : InteractableObject
     public void AddFoodToOrder(string foodName)
     {
         currentOrder.Add(foodName);
+        audioManager.PlaySFX(audioManager.TerminalButtonSFX);
+
         UpdateOrderText();
     }
 
@@ -61,6 +71,8 @@ public class Terminal : InteractableObject
     {
         // Create a copy of the current order to avoid modifying the list during iteration
         List<string> orderToProcess = new List<string>(currentOrder);
+
+        audioManager.PlaySFX(audioManager.TerminalConfirmButtonSFX);
 
         StartCoroutine(SpawnOrderWithDelay(orderToProcess));
 

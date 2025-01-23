@@ -22,6 +22,12 @@ public class PlayerInteraction : MonoBehaviour
 
     private Coroutine cleaningCoroutine; // To keep track of the cleaning coroutine
 
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
     private void Update()
     {
         Ray ray = new Ray(InteractorSource.position, InteractorSource.forward);
@@ -54,6 +60,7 @@ public class PlayerInteraction : MonoBehaviour
             {
                 if (hitInfo.collider.CompareTag("Pickup"))
                 {
+                    audioManager.PlaySFX(audioManager.PickUpFoodSFX);
                     PickUpItem(hitInfo.collider.gameObject);
                 }
                 else if (hitInfo.collider.TryGetComponent(out IInteractable interactable))
@@ -70,6 +77,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            audioManager.PlaySFX(audioManager.DropFoodSFX);
             DropItem();
         }
     }
