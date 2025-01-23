@@ -97,6 +97,7 @@ public class PlayerInteraction : MonoBehaviour
             else if (cleanTimer < cleanDuration && cleaningCoroutine == null)
             {
                 cleaningCoroutine = StartCoroutine(AnimateWaterScaling(spill.transform.GetChild(0))); // Animate the water scaling
+                audioManager.PlaySFX(audioManager.CleanSpillSFX);
             }
         }
         else

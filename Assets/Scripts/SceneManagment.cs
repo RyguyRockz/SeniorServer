@@ -19,7 +19,10 @@ public class SceneManagment : MonoBehaviour
     private bool isPaused = false;
 
     public TextMeshProUGUI levelAccessMessage;
+  
+    AudioManager audioManager;
 
+   
     void Update()
     {
         // Check if the player presses the Escape key
@@ -37,6 +40,8 @@ public class SceneManagment : MonoBehaviour
     }
     private void Awake()
     {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
         if (Instance == null)
         {
             Instance = this;
@@ -101,6 +106,8 @@ public class SceneManagment : MonoBehaviour
     // PlayGame function - Ensure the game starts unpaused
     public void Level1()
     {
+        audioManager.PlaySFX(audioManager.MenuStartButtonSFX);
+        
         Time.timeScale = 1f;  // Ensure the game is unpaused when starting
         SceneManager.LoadScene("Level1"); // Replace with your actual game scene name
         ScoreManager.Instance.StartNewLevel();
@@ -108,6 +115,8 @@ public class SceneManagment : MonoBehaviour
 
     public void LoadTutorial()
     {
+        audioManager.PlaySFX(audioManager.MenuStartButtonSFX);
+        
         Time.timeScale = 1f;
         SceneManager.LoadScene("TutorialLevel");
         ScoreManager.Instance.StartNewLevel();
@@ -126,6 +135,7 @@ public class SceneManagment : MonoBehaviour
     // Back to main menu - Ensure time scale is reset
     public void BackToMainMenu()
     {
+        audioManager.PlaySFX(audioManager.MenuBackButtonSFX);
         Time.timeScale = 1f;  // Ensure the game is unpaused when returning to the menu
         SceneManager.LoadScene("Main Menu"); // Replace with your actual main menu scene name
 
@@ -173,6 +183,7 @@ public class SceneManagment : MonoBehaviour
 
     public void LoadLevel2(string levelName)
     {
+
         // Check if the player has enough score from Level 1 to access Level 2
         if (levelName == "Level2" && ScoreManager.Instance.LevelScore1 < 3)
         {
@@ -180,7 +191,8 @@ public class SceneManagment : MonoBehaviour
             StartCoroutine(ClearLevelAccessMessageAfterDelay(3f)); // Clear message after 3 seconds
             return; // Prevent loading the level
         }
-
+        audioManager.PlaySFX(audioManager.MenuStartButtonSFX);
+        
         // Load the level
         Time.timeScale = 1f;
         SceneManager.LoadScene(levelName);
@@ -196,7 +208,8 @@ public class SceneManagment : MonoBehaviour
             StartCoroutine(ClearLevelAccessMessageAfterDelay(3f)); // Clear message after 3 seconds
             return; // Prevent loading the level
         }
-
+        audioManager.PlaySFX(audioManager.MenuStartButtonSFX);
+        
         // Load the level
         Time.timeScale = 1f;
         SceneManager.LoadScene(levelName);

@@ -170,7 +170,9 @@ public class GuestAI : InteractableObject
 
         }
 
+        
         yield return new WaitForSeconds(eatingDuration);
+
         //while loop if eating return null until done eating.
         // Leave the restaurant after eating or failing to receive food
         yield return StartCoroutine(LeaveRestaurant());
@@ -192,7 +194,7 @@ public class GuestAI : InteractableObject
         {
             Debug.LogError("Exit point is not set.");
         }
-
+        
         Debug.Log("Guest is leaving!");
         OnGuestLeft?.Invoke();
         Destroy(gameObject);
@@ -213,6 +215,7 @@ public class GuestAI : InteractableObject
             ScoreManager.Instance.PenalizeGuestsDidNotOrder();
             Debug.Log("Order not taken fast enough. Guest is leaving.");
             uiManager.ShowText(uiManager.guestLeaveText, "I waited too long! I'm leaving!", 3f);
+            audioManager.PlaySFX(audioManager.GuestLeavingMadSFX); //audio SFX
             yield break; // Stop execution
         }
         else
@@ -239,6 +242,7 @@ public class GuestAI : InteractableObject
             scoreManager.ApplyPenalty(1);
             ScoreManager.Instance.PenalizeGuestsFoodTookTooLong();
             uiManager.ShowText(uiManager.guestIncorrectFoodText, "I Haven't Gotten My Food! I'm Leaving!", 3f);
+            audioManager.PlaySFX(audioManager.GuestLeavingMadSFX); //audio SFX
             yield break;
         }
         else
