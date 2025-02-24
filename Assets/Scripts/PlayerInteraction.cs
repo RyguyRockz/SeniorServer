@@ -198,8 +198,8 @@ public class PlayerInteraction : MonoBehaviour
                 item.transform.SetParent(slot);  // Parent the item to the slot for easy positioning
 
                 // Scale the item down when picked up
-                Vector3 currentScale = item.transform.localScale;
-                item.transform.localScale = currentScale * 0.8f;  // Scale down by 0.8
+                //Vector3 currentScale = item.transform.localScale;
+                //item.transform.localScale = currentScale * 0.8f;  // Scale down by 0.8
 
                 return;
             }
@@ -226,7 +226,7 @@ public class PlayerInteraction : MonoBehaviour
                             tableInventory.PlaceItem(currentItems[i]);
 
                             // Scale the item back by dividing by .8
-                            currentItems[i].transform.localScale /= .8f;
+                            //currentItems[i].transform.localScale /= .8f;
 
                             // Re-enable colliders for the item and its children
                             EnableColliders(currentItems[i]);
