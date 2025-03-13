@@ -1,0 +1,6 @@
+Plans for Project before next meeting:
+-create and add materials into scene
+-add plate model onto the food models
+-Update food models
+-have both guest and player animations fully implemented
+-bug fix
