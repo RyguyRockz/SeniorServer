@@ -575,7 +575,6 @@ GameObject:
   - component: {fileID: 5680685445022850981}
   - component: {fileID: 869707733324503846}
   - component: {fileID: 4019699928743270946}
-  - component: {fileID: 3575533004810718919}
   m_Layer: 7
   m_Name: Cylinder
   m_TagString: Pickup
@@ -678,19 +677,6 @@ CapsuleCollider:
   m_Height: 2.3
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3575533004810718919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7731254246121939493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0a5a8ee38cb1fd4aa064892fc64fdc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foodId: 4
 --- !u!1 &8240223828073308009
 GameObject:
   m_ObjectHideFlags: 0
