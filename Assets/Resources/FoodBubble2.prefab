@@ -470,7 +470,6 @@ GameObject:
   - component: {fileID: 2991194023230657642}
   - component: {fileID: 7853277528817404572}
   - component: {fileID: 7808531218878905376}
-  - component: {fileID: 2428106149708255213}
   m_Layer: 7
   m_Name: TurkeyLeg_Model
   m_TagString: Pickup
@@ -568,16 +567,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.0881256, z: 2.0190287}
   m_Center: {x: 0.000000048159674, y: 0.044062965, z: -0.5095136}
---- !u!114 &2428106149708255213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9188656771261656737}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0a5a8ee38cb1fd4aa064892fc64fdc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foodId: 2

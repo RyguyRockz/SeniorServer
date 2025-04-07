@@ -310,7 +310,7 @@ public class GuestAI : InteractableObject
         if (orderObject != null)
         {
             GameObject instance = Instantiate(orderObject, transform.position + Vector3.up * 1.5f, Quaternion.identity);
-            instance.transform.localScale = new Vector3(1f, 1f, 1f);
+            //instance.transform.localScale = new Vector3(1f, 1f, 1f);
             instance.transform.SetParent(transform);
 
             Destroy(instance, 3f);
@@ -323,7 +323,7 @@ public class GuestAI : InteractableObject
         if (orderObject != null)
         {
             GameObject instance = Instantiate(orderObject, transform.position + Vector3.up * 1.5f, Quaternion.identity);
-            instance.transform.localScale = new Vector3(1f, 1f, 1f);
+            //instance.transform.localScale = new Vector3(1f, 1f, 1f);
             instance.transform.SetParent(transform);
 
            
@@ -451,12 +451,12 @@ public class GuestAI : InteractableObject
     {
         switch (orderNumber)
         {
-            case 1: return Resources.Load<GameObject>("FoodBubble1");
-            case 2: return Resources.Load<GameObject>("FoodBubble2");
-            case 3: return Resources.Load<GameObject>("FoodBubble3");
-            case 4: return Resources.Load<GameObject>("DrinkBubble1");
-            case 5: return Resources.Load<GameObject>("DrinkBubble2");
-            case 6: return Resources.Load<GameObject>("DrinkBubble3");
+            case 1: return Resources.Load<GameObject>("Burger1");
+            case 2: return Resources.Load<GameObject>("Chicken2");
+            case 3: return Resources.Load<GameObject>("Fries3");
+            case 4: return Resources.Load<GameObject>("Hotdog4");
+            case 5: return Resources.Load<GameObject>("Pizza5");
+            case 6: return Resources.Load<GameObject>("Pretzel6");
             default: return null;
         }
     }

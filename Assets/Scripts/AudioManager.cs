@@ -43,7 +43,7 @@ public class AudioManager : MonoBehaviour
     private void PlayMusicForCurrentScene()
     {
         currentScene = SceneManager.GetActiveScene().name;
-
+        AudioListener.volume = 0.1f; //Manually lowers all sounds
         if (currentScene == "Main Menu")
         {
             // Play menu music

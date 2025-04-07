@@ -197,9 +197,9 @@ public class PlayerInteraction : MonoBehaviour
                 item.transform.position = slot.position;
                 item.transform.SetParent(slot);  // Parent the item to the slot for easy positioning
 
-                // Scale the item down when picked up
-                //Vector3 currentScale = item.transform.localScale;
-                //item.transform.localScale = currentScale * 0.8f;  // Scale down by 0.8
+                //Scale the item down when picked up
+                Vector3 currentScale = item.transform.localScale;
+                item.transform.localScale = currentScale * 0.8f;  // Scale down by 0.8
 
                 return;
             }
@@ -256,14 +256,14 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-
-    private void PlaceOnTray(GameObject item, Transform slot)
-    {
-        item.SetActive(true);
-        item.transform.SetParent(slot);
-        item.transform.localPosition = Vector3.zero;
-        item.transform.localRotation = Quaternion.identity;
-    }
+    
+    //private void PlaceOnTray(GameObject item, Transform slot)
+    //{
+    //    item.SetActive(true);
+    //    item.transform.SetParent(slot);
+    //    item.transform.localPosition = Vector3.zero;
+    //    item.transform.localRotation = Quaternion.identity;
+    //}
 
     private void ClearSlot(Transform slot)
     {
@@ -282,12 +282,7 @@ public class PlayerInteraction : MonoBehaviour
             itemBoxCollider.enabled = false;
         }
 
-        CapsuleCollider itemCapsuleCollider = item.GetComponent<CapsuleCollider>();
-        if (itemCapsuleCollider != null)
-        {
-            itemCapsuleCollider.enabled = false;
-        }
-
+ 
         // Recursively disable colliders on all child objects (if any)
         foreach (Transform child in item.transform)
         {
@@ -312,12 +307,6 @@ public class PlayerInteraction : MonoBehaviour
         if (itemBoxCollider != null)
         {
             itemBoxCollider.enabled = true;
-        }
-
-        CapsuleCollider itemCapsuleCollider = item.GetComponent<CapsuleCollider>();
-        if (itemCapsuleCollider != null)
-        {
-            itemCapsuleCollider.enabled = true;
         }
 
         // Recursively re-enable colliders on all child objects (if any)

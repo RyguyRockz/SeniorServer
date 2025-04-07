@@ -135,8 +135,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.3392901, y: 1, z: 1}
+  m_Center: {x: -0.16964324, y: 0, z: 1.2806177e-15}
 --- !u!1 &8528922285227364171
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,7 +267,7 @@ MonoBehaviour:
   platePrefab: {fileID: 4871798394993491860, guid: e1ea864f194646640be9f5d513603af2, type: 3}
   currentFoodObject: {fileID: 0}
   LeavingRest: 0
-  spillSpawnChance: 1
+  spillSpawnChance: 0.15
 --- !u!65 &5813118107360814622
 BoxCollider:
   m_ObjectHideFlags: 0

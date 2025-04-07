@@ -123,28 +123,28 @@ public class Terminal : InteractableObject
 
         switch (foodName)
         {
-            case "Food 1":
+            case "Burger":
                 prefabToSpawn = foodPrefab1;
                 target = foodTarget1;
                 Debug.Log("SpawningFood1");
                 break;
-            case "Food 2":
+            case "Chicken":
                 prefabToSpawn = foodPrefab2;
                 target = foodTarget2;
                 break;
-            case "Food 3":
+            case "Fries":
                 prefabToSpawn = foodPrefab3;
                 target = foodTarget3;
                 break;
-            case "Drink 1":
+            case "Hotdog":
                 prefabToSpawn = drinkPrefab1;
                 target = drinkTarget1;
                 break;
-            case "Drink 2":
+            case "Pizza":
                 prefabToSpawn = drinkPrefab2;
                 target = drinkTarget2;
                 break;
-            case "Drink 3":
+            case "Pretzel":
                 prefabToSpawn = drinkPrefab3;
                 target = drinkTarget3;
                 break;
