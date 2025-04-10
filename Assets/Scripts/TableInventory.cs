@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TableInventory : MonoBehaviour
 {
+    public Transform tableIndicatorSpot;
     public Transform dropPoint; // Point where items will snap
     private GameObject currentItem; // The item currently on the table
     public Sink sink; // Reference to the Sink script

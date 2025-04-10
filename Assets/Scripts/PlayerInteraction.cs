@@ -16,6 +16,7 @@ public class PlayerInteraction : MonoBehaviour
     public Transform itemSlot2; // Slot 2 on the tray
 
     public GameObject interactableIndicatorPrefab; // Prefab to show above interactable object
+    public GameObject tableIndicatorPrefab;
     private GameObject activeIndicator; // To store the current active indicator
     private Transform lastInteractable; // To track the last interactable object we looked at
     public LayerMask interactableLayers;
@@ -55,19 +56,23 @@ public class PlayerInteraction : MonoBehaviour
                 if (!table.HasItem)
                 {
                     // Show indicator at the table's DROP POINT (not the table's root)
-                    ShowIndicator(table.dropPoint);
+                    Transform indicatorSpot = table.tableIndicatorSpot != null
+                    ? table.tableIndicatorSpot
+                    : table.dropPoint;
+
+                    ShowIndicator(indicatorSpot, isTable: true);
                 }
                 else
                 {
                     HideIndicator(); // Table is full
                 }
             }
-            else // MODIFIED: Else check for other interactables
+            else // Else check for other interactables
             {
                 // Original logic for pickups/spills
                 if (hitInfo.collider.CompareTag("Pickup") || hitInfo.collider.CompareTag("Spill") || hitInfo.collider.GetComponent<IInteractable>() != null)
                 {
-                    ShowIndicator(hitInfo.collider.transform);
+                    ShowIndicator(hitInfo.collider.transform, isTable: false);
                 }
                 else
                 {
@@ -187,18 +192,25 @@ public class PlayerInteraction : MonoBehaviour
         cleaningCoroutine = null; // Reset the coroutine reference
     }
 
-    private void ShowIndicator(Transform interactable)
+    private void ShowIndicator(Transform interactable, bool isTable = false)
     {
-        // Skip if already showing or no prefab assigned
-        if (lastInteractable == interactable || interactableIndicatorPrefab == null)
+        if (lastInteractable == interactable)
             return;
 
         HideIndicator();
 
-        // Position the indicator ABOVE the table's drop point
+        // Choose the prefab: use tableIndicatorPrefab for tables, else default  
+        GameObject prefabToUse = isTable ? tableIndicatorPrefab : interactableIndicatorPrefab;
+        if (prefabToUse == null)
+        {
+            Debug.LogError("Indicator prefab not assigned!");
+            return;
+        }
+
+        // Position the indicator  
         Vector3 indicatorPos = interactable.position + Vector3.up * 1.5f;
-        activeIndicator = Instantiate(interactableIndicatorPrefab, indicatorPos, Quaternion.identity);
-        activeIndicator.transform.SetParent(interactable); // Parent to dropPoint  
+        activeIndicator = Instantiate(prefabToUse, indicatorPos, Quaternion.identity);
+        activeIndicator.transform.SetParent(interactable);
         lastInteractable = interactable;
     }
 
