@@ -3,6 +3,10 @@ using System.Collections;
 using System.Linq;
 public class PlayerInteraction : MonoBehaviour
 {
+    [SerializeField] private Animator playerAnimator;
+
+    private bool isDropping = false; // Prevent overlapping drops
+
     public Transform InteractorSource;
     public float InteractRange;
 
@@ -27,39 +31,75 @@ public class PlayerInteraction : MonoBehaviour
     private void Awake()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
+        if (playerAnimator == null)
+            playerAnimator = GetComponent<Animator>();
     }
     private void Update()
     {
+        float moveInput = Input.GetAxis("Horizontal") + Input.GetAxis("Vertical");
+        bool isMoving = Mathf.Abs(moveInput) > 0.1f;
+        playerAnimator.SetBool("IsWalking", isMoving);
+
         Ray ray = new Ray(InteractorSource.position, InteractorSource.forward);
 
-        // Raycast only hits objects on the specified layers
+        // NEW: Check if player has items to drop
+        bool hasItemToDrop = currentItems[0] != null || currentItems[1] != null;
+
         if (Physics.Raycast(ray, out RaycastHit hitInfo, InteractRange, interactableLayers))
         {
-            // Check if the object hit by the ray is interactable (like a Pickup or Spill)
-            if (hitInfo.collider.CompareTag("Pickup") || hitInfo.collider.CompareTag("Spill") || hitInfo.collider.GetComponent<IInteractable>() != null)
+            // NEW: Priority check for tables when holding items
+            TableInventory table = hitInfo.collider.GetComponent<TableInventory>();
+            if (table != null && hasItemToDrop)
             {
-                ShowIndicator(hitInfo.collider.transform); // Show indicator above the interactable object
+                if (!table.HasItem)
+                {
+                    // Show indicator at the table's DROP POINT (not the table's root)
+                    ShowIndicator(table.dropPoint);
+                }
+                else
+                {
+                    HideIndicator(); // Table is full
+                }
             }
-            else
+            else // MODIFIED: Else check for other interactables
             {
-                HideIndicator(); // Hide the indicator if no valid object is detected
+                // Original logic for pickups/spills
+                if (hitInfo.collider.CompareTag("Pickup") || hitInfo.collider.CompareTag("Spill") || hitInfo.collider.GetComponent<IInteractable>() != null)
+                {
+                    ShowIndicator(hitInfo.collider.transform);
+                }
+                else
+                {
+                    HideIndicator();
+                }
             }
 
-            // Check if we are looking at a spill to start cleaning
+            // Existing guest interaction
+            if (hitInfo.collider.CompareTag("Guest"))
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    playerAnimator.SetTrigger("TakeOrder");
+                }
+            }
+
+            // Existing spill cleaning logic
             if (hitInfo.collider.CompareTag("Spill"))
             {
                 HandleCleaning(hitInfo.collider.gameObject);
             }
             else
             {
-                ResetCleaning(); // Reset cleaning timer if no spill is in view
+                ResetCleaning();
             }
 
-            // Handle normal interactions (picking up items, interacting with IInteractable objects)
+            // Existing E-key interactions
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (hitInfo.collider.CompareTag("Pickup"))
                 {
+                    playerAnimator.SetTrigger("Grab");
                     audioManager.PlaySFX(audioManager.PickUpFoodSFX);
                     PickUpItem(hitInfo.collider.gameObject);
                 }
@@ -69,16 +109,17 @@ public class PlayerInteraction : MonoBehaviour
                 }
             }
         }
-        else
+        else // Raycast didn't hit anything
         {
-            HideIndicator(); // Hide the indicator when not looking at anything
-            ResetCleaning(); // Reset cleaning if no interactable object is in view
+            HideIndicator();
+            ResetCleaning();
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        // Existing Q-key drop logic
+        if (Input.GetKeyDown(KeyCode.Q) && !isDropping)
         {
-            audioManager.PlaySFX(audioManager.DropFoodSFX);
-            DropItem();
+            playerAnimator.SetTrigger("Drop");
+            isDropping = true;
         }
     }
 
@@ -88,6 +129,7 @@ public class PlayerInteraction : MonoBehaviour
         if (Input.GetKey(KeyCode.E))
         {
             cleanTimer += Time.deltaTime; // Increase the timer while holding E
+            playerAnimator.SetBool("IsCleaning", true); // Start cleaning loop
 
             if (cleanTimer >= cleanDuration && !isCleaning)
             {
@@ -102,12 +144,14 @@ public class PlayerInteraction : MonoBehaviour
         }
         else
         {
+            playerAnimator.SetBool("IsCleaning", false); // Stop cleaning
             ResetCleaning(); // Reset the timer if E is not held
         }
     }
 
     private void ResetCleaning()
     {
+        playerAnimator.SetBool("IsCleaning", false); // Explicitly stop the animation
         cleanTimer = 0f;
         isCleaning = false;
         if (cleaningCoroutine != null)
@@ -145,18 +189,16 @@ public class PlayerInteraction : MonoBehaviour
 
     private void ShowIndicator(Transform interactable)
     {
-        // Check if we're looking at the same object as before
-        if (lastInteractable == interactable)
-        {
-            return; // Already showing indicator for this object
-        }
+        // Skip if already showing or no prefab assigned
+        if (lastInteractable == interactable || interactableIndicatorPrefab == null)
+            return;
 
-        // If we were showing an indicator for a different object, hide it first
         HideIndicator();
 
-        // Instantiate or move the indicator above the new interactable object
-        activeIndicator = Instantiate(interactableIndicatorPrefab, interactable.position + Vector3.up * 1.5f, Quaternion.identity);
-        activeIndicator.transform.SetParent(interactable); // Attach it to the object
+        // Position the indicator ABOVE the table's drop point
+        Vector3 indicatorPos = interactable.position + Vector3.up * 1.5f;
+        activeIndicator = Instantiate(interactableIndicatorPrefab, indicatorPos, Quaternion.identity);
+        activeIndicator.transform.SetParent(interactable); // Parent to dropPoint  
         lastInteractable = interactable;
     }
 
@@ -209,61 +251,58 @@ public class PlayerInteraction : MonoBehaviour
 
     private void DropItem()
     {
-        // Loop through the player's inventory from the last item to the first
+        // Loop through the player's inventory
         for (int i = currentItems.Length - 1; i >= 0; i--)
         {
             if (currentItems[i] != null)
             {
-                // Cast a ray to check if the player is looking at a table with a TableInventory
                 Ray ray = new Ray(InteractorSource.position, InteractorSource.forward);
                 if (Physics.Raycast(ray, out RaycastHit hitInfo, InteractRange, interactableLayers))
                 {
                     if (hitInfo.collider.TryGetComponent(out TableInventory tableInventory))
                     {
-                        if (!tableInventory.HasItem) // Place item if table is empty
+                        if (!tableInventory.HasItem)
                         {
-                            // Place the item in inventory
                             tableInventory.PlaceItem(currentItems[i]);
-
-                            // Scale the item back by dividing by .8
-                            //currentItems[i].transform.localScale /= .8f;
-
-                            // Re-enable colliders for the item and its children
                             EnableColliders(currentItems[i]);
+                            currentItems[i].transform.SetParent(null);
+                            currentItems[i] = null;
 
-                            // Remove the item from the player's inventory and reset its parent
-                            currentItems[i].transform.SetParent(null);  // Remove the item from the slot
-                            currentItems[i] = null; // Remove from the player's inventory
+                            // FIX: Reset here after successful drop
+                            isDropping = false; // <-- ADD THIS LINE
                             return;
                         }
                         else
                         {
-                            Debug.Log("Table already has an item!");
+                            Debug.Log("Table full!");
                         }
                     }
                     else
                     {
-                        Debug.Log("You can only place items on a table!");
+                        Debug.Log("Not a table!");
                     }
                 }
                 else
                 {
-                    Debug.Log("No table detected. Drop action canceled.");
+                    Debug.Log("No table detected.");
                 }
 
+                // Reset if drop failed (e.g., no table)
+                isDropping = false;
                 return;
             }
         }
+
+        // Reset if no item was found
+        isDropping = false;
     }
 
-    
-    //private void PlaceOnTray(GameObject item, Transform slot)
-    //{
-    //    item.SetActive(true);
-    //    item.transform.SetParent(slot);
-    //    item.transform.localPosition = Vector3.zero;
-    //    item.transform.localRotation = Quaternion.identity;
-    //}
+    public void PlayDropSound()
+    {
+        audioManager.PlaySFX(audioManager.DropFoodSFX);
+    }
+
+
 
     private void ClearSlot(Transform slot)
     {
@@ -282,7 +321,7 @@ public class PlayerInteraction : MonoBehaviour
             itemBoxCollider.enabled = false;
         }
 
- 
+
         // Recursively disable colliders on all child objects (if any)
         foreach (Transform child in item.transform)
         {

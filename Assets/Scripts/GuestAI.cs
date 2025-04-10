@@ -302,6 +302,7 @@ public class GuestAI : InteractableObject
         if (!IsSeated() || hasOrdered) return;
 
         hasOrdered = true;
+
         order = Random.Range(1, 7); // Randomly generates number
         Debug.Log("Guest ordered item: " + order);
 
